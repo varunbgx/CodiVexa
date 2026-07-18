@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Assessment | Codivexa Learning Systems</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="../db.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#faf9ff",
+                        "on-background": "#051a3e",
+                        "on-secondary-container": "#00714b",
+                        "primary-fixed": "#dae2ff",
+                        "on-primary-fixed": "#001848",
+                        "surface-bg": "#F4F5F7",
+                        "on-tertiary": "#ffffff",
+                        "outline": "#737685",
+                        "surface-card": "#FFFFFF",
+                        "inverse-surface": "#1d3054",
+                        "on-tertiary-container": "#d5ccff",
+                        "on-tertiary-fixed": "#1a0063",
+                        "on-primary-fixed-variant": "#0040a2",
+                        "on-surface-variant": "#434654",
+                        "surface-container-high": "#e1e8ff",
+                        "secondary-fixed-dim": "#71dba6",
+                        "primary-fixed-dim": "#b2c5ff",
+                        "on-secondary": "#ffffff",
+                        "primary-container": "#0052cc",
+                        "tertiary-fixed-dim": "#c9bfff",
+                        "error": "#FF5630",
+                        "primary": "#003d9b",
+                        "surface-container-highest": "#d8e2ff",
+                        "surface-variant": "#d8e2ff",
+                        "on-primary-container": "#c4d2ff",
+                        "surface-dim": "#ccdaff",
+                        "surface-bright": "#faf9ff",
+                        "tertiary-fixed": "#e5deff",
+                        "secondary-fixed": "#8df7c1",
+                        "tertiary-container": "#5b49b5",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#edf0ff",
+                        "surface-container-lowest": "#ffffff",
+                        "info": "#00B8D9",
+                        "warning": "#FFAB00",
+                        "tertiary": "#432f9c",
+                        "surface-tint": "#0c56d0",
+                        "inverse-primary": "#b2c5ff",
+                        "secondary-container": "#8af5be",
+                        "error-container": "#ffdad6",
+                        "background": "#faf9ff",
+                        "on-secondary-fixed-variant": "#005235",
+                        "on-secondary-fixed": "#002113",
+                        "on-surface": "#051a3e",
+                        "outline-variant": "#c3c6d6",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#e9edff",
+                        "secondary": "#006c47",
+                        "on-tertiary-fixed-variant": "#4633a0",
+                        "border-subtle": "#DFE1E6",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f1f3ff",
+                        "success": "#36B37E"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "4px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "32px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "stack-md": "12px",
+                        "stack-lg": "24px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .option-card:hover {
+            box-shadow: 0 12px 12px -4px rgba(0, 82, 204, 0.08);
+        }
+        .progress-ring {
+            transition: stroke-dashoffset 0.35s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+    </style>
+</head>
+<body class="bg-surface-bg text-on-background min-h-screen font-body-md flex flex-col">
+<!-- Top Navigation Bar (JSON Anchor Mapping) -->
+<header class="bg-surface-container-lowest dark:bg-surface-container-highest shadow-sm border-b border-border-subtle dark:border-outline-variant sticky top-0 z-50">
+<div class="flex justify-between items-center w-full px-margin-desktop py-base max-w-container-max mx-auto">
+<div class="flex items-center gap-stack-lg">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Codivexa</span>
+<nav class="hidden md:flex items-center gap-gutter">
+<a class="text-on-surface-variant dark:text-on-surface-variant font-body-md hover:text-primary-container transition-colors duration-200" href="#">Browse Courses</a>
+</nav>
+</div>
+<div class="flex items-center gap-gutter">
+<div class="flex flex-col items-end mr-stack-md hidden sm:flex">
+<span class="font-label-md text-label-md text-outline">TIME REMAINING</span>
+<span class="font-title-lg text-title-lg text-primary font-bold" id="timer">28:45</span>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors p-2">notifications</button>
+<div class="h-10 w-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold border-2 border-surface-card">
+                    JD
+                </div>
+</div>
+</div>
+</header>
+<main class="flex-grow flex flex-col items-center py-stack-lg px-margin-mobile md:px-margin-desktop max-w-[900px] mx-auto w-full">
+<!-- Assessment Info Header -->
+<div class="w-full mb-stack-lg flex flex-col md:flex-row md:items-end justify-between gap-stack-md">
+<div>
+<nav class="flex items-center gap-base text-outline mb-stack-sm">
+<span class="font-label-md text-label-md" id="course-category-label">AI &amp; MACHINE LEARNING</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="font-label-md text-label-md">FINAL ASSESSMENT</span>
+</nav>
+<h1 class="font-headline-lg text-headline-lg text-on-background font-bold" id="course-title-label">Neural Networks &amp; Deep Learning Foundations</h1>
+</div>
+<div class="bg-surface-container-high px-stack-lg py-stack-md rounded-lg border border-outline-variant flex items-center gap-stack-md flex-shrink-0">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">info</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Passing Score: <strong class="text-on-surface">60%</strong></span>
+</div>
+</div>
+<div id="quiz-workspace" class="w-full space-y-stack-lg">
+<!-- Progress Tracking -->
+<div class="w-full bg-surface-card rounded-xl p-stack-lg border border-border-subtle shadow-sm">
+<div class="flex justify-between items-center mb-stack-md">
+<span class="font-title-lg text-title-lg font-bold" id="question-progress-label">Question 1 <span class="text-outline font-normal">of 5</span></span>
+<span class="font-label-md text-label-md text-success px-stack-md py-stack-sm bg-secondary-container rounded-full font-bold" id="question-progress-percent">20% COMPLETED</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-success transition-all duration-500" id="question-progress-bar" style="width: 20%"></div>
+</div>
+</div>
+<!-- Question Canvas -->
+<div class="w-full bg-surface-card rounded-xl border border-border-subtle shadow-sm overflow-hidden flex flex-col min-h-[400px]">
+<div class="p-stack-lg border-b border-border-subtle bg-surface-container-low">
+<p class="font-body-lg text-body-lg text-on-background leading-relaxed font-semibold" id="quiz-question-text">
+                Loading question...
+            </p>
+</div>
+<div class="p-stack-lg flex-grow space-y-stack-md" id="quiz-options-container">
+<!-- Options dynamically rendered here -->
+</div>
+<!-- Footer Actions -->
+<div class="p-stack-lg border-t border-border-subtle bg-surface-container-lowest flex justify-between items-center">
+<button class="flex items-center gap-base px-stack-lg py-stack-md text-primary font-bold hover:bg-primary-fixed rounded-lg transition-colors" id="quiz-prev-btn" onclick="prevQuestion()">
+<span class="material-symbols-outlined">arrow_back</span>
+                    Previous
+                </button>
+<div class="flex gap-stack-md">
+<button class="px-stack-lg py-stack-md bg-secondary-container text-primary font-bold rounded-lg hover:brightness-105 transition-all" onclick="confirmSubmit()">
+                        Submit Early
+                    </button>
+<button class="px-stack-lg py-stack-md bg-primary text-on-primary font-bold rounded-lg hover:shadow-md active:scale-95 transition-all" id="quiz-next-btn" onclick="nextQuestion()">
+                        Save &amp; Next
+                    </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Results Panel (Initially Hidden) -->
+<div class="hidden w-full bg-surface-card rounded-xl border border-border-subtle shadow-lg p-8 text-center space-y-6" id="quiz-results-panel">
+<div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto" id="results-icon-container">
+<!-- Pass/Fail Icon -->
+</div>
+<h2 class="font-headline-lg text-headline-lg font-bold" id="results-title">Passed / Failed</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-md mx-auto" id="results-summary">
+        Your score is details here...
+    </p>
+<div class="bg-surface-container-low p-6 rounded-xl max-w-md mx-auto border border-border-subtle text-left space-y-2 text-sm" id="results-details">
+<!-- Detailed stats -->
+</div>
+<div class="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+<button class="px-8 py-3 rounded-lg font-bold text-white shadow-md transition-all active:scale-95" id="results-action-btn"></button>
+<button class="px-8 py-3 border border-outline text-on-surface-variant font-bold rounded-lg hover:bg-surface-container-high transition-colors" onclick="window.location.href='../student_dashboard/code.html'">
+            Go to Dashboard
+        </button>
+</div>
+</div>
+</main>
+<!-- Success Footer (JSON Anchor Mapping) -->
+<footer class="mt-auto bg-on-background dark:bg-surface-container-lowest border-t border-outline dark:border-outline-variant">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-desktop py-stack-lg max-w-container-max mx-auto">
+<div class="col-span-1 md:col-span-1">
+<span class="font-headline-md text-headline-md font-bold text-surface-card dark:text-on-surface">Codivexa</span>
+<p class="font-body-sm text-body-sm text-surface-variant mt-stack-md">Advancing human intelligence through structured digital learning.</p>
+</div>
+<div class="flex flex-col gap-stack-sm">
+<h4 class="font-title-lg text-title-lg text-surface-card dark:text-on-surface">Quick Links</h4>
+<a class="font-body-sm text-body-sm text-surface-variant hover:text-secondary-container transition-colors" href="#">About Us</a>
+<a class="font-body-sm text-body-sm text-surface-variant hover:text-secondary-container transition-colors" href="#">Contact Support</a>
+</div>
+<div class="flex flex-col gap-stack-sm">
+<h4 class="font-title-lg text-title-lg text-surface-card dark:text-on-surface">Legal</h4>
+<a class="font-body-sm text-body-sm text-surface-variant hover:text-secondary-container transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-surface-variant hover:text-secondary-container transition-colors" href="#">Terms of Service</a>
+</div>
+<div class="flex flex-col gap-stack-sm items-end md:items-start">
+<p class="font-body-sm text-body-sm text-surface-variant text-right md:text-left">© 2024 Codivexa Learning Systems. All rights reserved.</p>
+</div>
+</div>
+</footer>
+<!-- Submit Modal -->
+<div class="fixed inset-0 bg-on-background/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-margin-mobile" id="submit-modal">
+<div class="bg-surface-card rounded-2xl max-w-md w-full p-stack-lg shadow-2xl scale-95 opacity-0 transition-all duration-300 transform" id="modal-content">
+<div class="w-16 h-16 bg-primary-fixed rounded-full flex items-center justify-center mb-stack-lg mx-auto text-primary">
+<span class="material-symbols-outlined text-[32px]">assignment_turned_in</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-center mb-stack-sm">Ready to Submit?</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-center mb-stack-lg" id="submit-modal-summary">
+    You have answered all questions. Once submitted, you cannot change your answers.
+</p>
+<div class="flex flex-col gap-stack-md">
+<button class="w-full py-stack-md bg-primary text-on-primary font-bold rounded-lg hover:bg-primary-container transition-all" onclick="submitAssessment()">Yes, Submit Assessment</button>
+<button class="w-full py-stack-md border border-outline text-on-surface-variant font-bold rounded-lg hover:bg-surface-container-low transition-all" onclick="closeModal()">Review Answers</button>
+</div>
+</div>
+</div>
+<script>
+        // Check session
+        const user = window.db.getLoggedInUser();
+        if (!user || user.role !== 'student') {
+            window.location.href = '../codivexa_landing_page/code.html';
+        }
+
+        // Get Course Info
+        const urlParams = new URLSearchParams(window.location.search);
+        const courseId = urlParams.get('courseId') || 'course-1';
+        const course = window.db.getCourse(courseId);
+
+        if (!course) {
+            alert("Course not found!");
+            window.location.href = '../student_dashboard/code.html';
+        }
+
+        // Check if user completed all lessons
+        const enroll = window.db.getEnrollment(user.id, course.id);
+        if (!enroll || enroll.completedVideos.length < course.videos.length) {
+            alert("You must complete all lessons before taking this assessment.");
+            window.location.href = `../course_player/code.html?courseId=${course.id}`;
+        }
+
+        // Questions List
+        const questionsList = course.assessment?.questions || course.questions || [];
+        let currentQuestionIdx = 0;
+        let userAnswers = {}; // map of { questionIndex: optionLetter }
+
+        // Setup timer
+        let timeLeft = 600; // 10 minutes
+        const timerElement = document.getElementById('timer');
+        const timerInterval = setInterval(() => {
+            if (timeLeft > 0) {
+                timeLeft--;
+                const mins = Math.floor(timeLeft / 60);
+                const secs = timeLeft % 60;
+                timerElement.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                
+                if (timeLeft < 120) { // Under 2 mins turns red
+                    timerElement.className = "font-title-lg text-title-lg text-error font-bold";
+                }
+            } else {
+                clearInterval(timerInterval);
+                alert("Time's up! Your assessment is being submitted automatically.");
+                submitAssessment();
+            }
+        }, 1000);
+
+        function renderQuestion() {
+            if (questionsList.length === 0) return;
+            const q = questionsList[currentQuestionIdx];
+
+            // Progress labels
+            const qNum = currentQuestionIdx + 1;
+            const total = questionsList.length;
+            const percent = Math.round((qNum / total) * 100);
+
+            document.getElementById('question-progress-label').innerHTML = `Question ${qNum} <span class="text-outline font-normal">of ${total}</span>`;
+            document.getElementById('question-progress-percent').textContent = `${percent}% PROGRESS`;
+            document.getElementById('question-progress-bar').style.width = percent + "%";
+
+            // Set question text
+            document.getElementById('quiz-question-text').textContent = `${qNum}. ${q.text}`;
+
+            // Render options
+            const optionsContainer = document.getElementById('quiz-options-container');
+            const selectedOpt = userAnswers[currentQuestionIdx];
+
+            optionsContainer.innerHTML = Object.keys(q.options).map(key => {
+                const label = q.options[key];
+                const checked = selectedOpt === key ? 'checked' : '';
+                const letter = String.fromCharCode(65 + parseInt(key));
+                return `
+                    <label class="option-card relative flex items-center p-stack-lg border border-border-subtle rounded-lg cursor-pointer transition-all duration-200 group hover:border-primary-container hover:bg-surface-container-low">
+                        <input name="assessment-option" value="${key}" ${checked} onchange="selectOption('${key}')" class="hidden peer" type="radio"/>
+                        <div class="w-10 h-10 flex items-center justify-center rounded-lg border-2 border-outline-variant text-outline font-bold group-hover:border-primary-container group-hover:text-primary-container peer-checked:bg-primary peer-checked:text-on-primary peer-checked:border-primary transition-colors">${letter}</div>
+                        <span class="ml-stack-lg font-body-md text-on-surface peer-checked:font-bold">${label}</span>
+                        <div class="ml-auto opacity-0 peer-checked:opacity-100 transition-opacity">
+                            <span class="material-symbols-outlined text-primary">check_circle</span>
+                        </div>
+                    </label>
+                `;
+            }).join('');
+
+            // Toggle prev button visibility
+            const prevBtn = document.getElementById('quiz-prev-btn');
+            if (currentQuestionIdx === 0) {
+                prevBtn.classList.add('invisible');
+            } else {
+                prevBtn.classList.remove('invisible');
+            }
+
+            // Next button text changes on final step
+            const nextBtn = document.getElementById('quiz-next-btn');
+            if (currentQuestionIdx === total - 1) {
+                nextBtn.innerHTML = `Finish &amp; Submit <span class="material-symbols-outlined">send</span>`;
+            } else {
+                nextBtn.innerHTML = `Save &amp; Next <span class="material-symbols-outlined">arrow_forward</span>`;
+            }
+        }
+
+        function selectOption(opt) {
+            userAnswers[currentQuestionIdx] = opt;
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIdx === questionsList.length - 1) {
+                // last question, open submit confirmation
+                confirmSubmit();
+            } else {
+                currentQuestionIdx++;
+                renderQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIdx > 0) {
+                currentQuestionIdx--;
+                renderQuestion();
+            }
+        }
+
+        // Submits overlay modal
+        function confirmSubmit() {
+            const answered = Object.keys(userAnswers).length;
+            const total = questionsList.length;
+            const remaining = total - answered;
+
+            let summary = `You have answered ${answered} questions and have ${remaining} remaining.`;
+            if (remaining === 0) {
+                summary = "You have answered all questions. Once submitted, you cannot change your answers.";
+            }
+
+            document.getElementById('submit-modal-summary').textContent = summary;
+
+            const modal = document.getElementById('submit-modal');
+            const content = document.getElementById('modal-content');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('submit-modal');
+            const content = document.getElementById('modal-content');
+            content.classList.add('scale-95', 'opacity-0');
+            content.classList.remove('scale-100', 'opacity-100');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        function submitAssessment() {
+            clearInterval(timerInterval);
+            closeModal();
+
+            let correct = 0;
+            const total = questionsList.length;
+
+            questionsList.forEach((q, idx) => {
+                if (parseInt(userAnswers[idx]) === q.correctOption) {
+                    correct++;
+                }
+            });
+
+            const percent = Math.round((correct / total) * 100);
+            const passed = percent >= 60;
+
+            // Hide workspace, show results
+            document.getElementById('quiz-workspace').classList.add('hidden');
+            const resultsPanel = document.getElementById('quiz-results-panel');
+            resultsPanel.classList.remove('hidden');
+
+            const iconContainer = document.getElementById('results-icon-container');
+            const title = document.getElementById('results-title');
+            const summary = document.getElementById('results-summary');
+            const details = document.getElementById('results-details');
+            const actionBtn = document.getElementById('results-action-btn');
+
+            details.innerHTML = `
+                <p><strong>Candidate Name:</strong> ${user.name}</p>
+                <p><strong>Course:</strong> ${course.name}</p>
+                <p><strong>Submission Date:</strong> ${new Date().toLocaleString()}</p>
+                <p><strong>Correct Answers:</strong> ${correct} of ${total}</p>
+                <p><strong>Final Percentage:</strong> ${percent}%</p>
+                <p><strong>Status:</strong> <span class="${passed ? 'text-success font-bold':'text-error font-bold'}">${passed ? 'PASSED':'FAILED'}</span></p>
+            `;
+
+            if (passed) {
+                // Issue certificate in database
+                window.db.issueCertificate(user.id, course.id);
+
+                iconContainer.className = "w-20 h-20 rounded-full flex items-center justify-center mx-auto bg-success/20 text-success";
+                iconContainer.innerHTML = `<span class="material-symbols-outlined text-[48px]" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>`;
+                title.textContent = "Congratulations! You Passed!";
+                title.className = "font-headline-lg text-headline-lg font-bold text-success";
+                summary.textContent = "You successfully verified your comprehension of the course syllabus. Your official digital completion certificate has been generated.";
+                
+                actionBtn.className = "px-8 py-3 bg-success text-white font-bold rounded-lg hover:brightness-110 active:scale-95 transition-all shadow-md";
+                actionBtn.textContent = "Get Certificate";
+                actionBtn.onclick = () => {
+                    window.location.href = `../course_certificate/code.html?courseId=${course.id}`;
+                };
+            } else {
+                iconContainer.className = "w-20 h-20 rounded-full flex items-center justify-center mx-auto bg-error/20 text-error";
+                iconContainer.innerHTML = `<span class="material-symbols-outlined text-[48px]" style="font-variation-settings: 'FILL' 1;">error</span>`;
+                title.textContent = "You didn't pass this time.";
+                title.className = "font-headline-lg text-headline-lg font-bold text-error";
+                summary.textContent = "The passing score for this certification assessment is 60%. Don't worry, you can study the videos and retake the quiz anytime.";
+
+                actionBtn.className = "px-8 py-3 bg-primary text-on-primary font-bold rounded-lg hover:bg-primary-container active:scale-95 transition-all shadow-md";
+                actionBtn.textContent = "Retake Assessment";
+                actionBtn.onclick = () => {
+                    // Reset quiz state
+                    userAnswers = {};
+                    currentQuestionIdx = 0;
+                    timeLeft = 600;
+                    resultsPanel.classList.add('hidden');
+                    document.getElementById('quiz-workspace').classList.remove('hidden');
+                    renderQuestion();
+                };
+            }
+        }
+
+        // Initialize state
+        window.addEventListener('DOMContentLoaded', () => {
+            // Set Header course title
+            document.getElementById('course-category-label').textContent = course.category.toUpperCase();
+            document.getElementById('course-title-label').textContent = course.name;
+            
+            // Set nav initials
+            const initials = user.name.split(' ').map(n => n[0]).join('').toUpperCase();
+            document.querySelector('header div.rounded-full').textContent = initials;
+
+            // Start quiz
+            renderQuestion();
+        });
+    </script>
+</body></html>

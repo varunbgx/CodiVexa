@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Codivexa Student Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="../db.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                "tertiary-fixed": "#e5deff",
+                "surface-card": "#FFFFFF",
+                "on-tertiary-fixed-variant": "#4633a0",
+                "inverse-on-surface": "#edf0ff",
+                "on-error-container": "#93000a",
+                "tertiary": "#432f9c",
+                "surface-bright": "#faf9ff",
+                "surface-container": "#e9edff",
+                "tertiary-fixed-dim": "#c9bfff",
+                "error": "#FF5630",
+                "secondary": "#006c47",
+                "on-secondary-container": "#00714b",
+                "outline-variant": "#c3c6d6",
+                "on-surface-variant": "#434654",
+                "inverse-surface": "#1d3054",
+                "secondary-container": "#8af5be",
+                "secondary-fixed": "#8df7c1",
+                "on-background": "#051a3e",
+                "on-tertiary": "#ffffff",
+                "surface-container-highest": "#d8e2ff",
+                "error-container": "#ffdad6",
+                "warning": "#FFAB00",
+                "on-primary-fixed": "#001848",
+                "inverse-primary": "#b2c5ff",
+                "primary-fixed-dim": "#b2c5ff",
+                "outline": "#737685",
+                "surface-dim": "#ccdaff",
+                "primary": "#003d9b",
+                "on-tertiary-container": "#d5ccff",
+                "info": "#00B8D9",
+                "surface-container-high": "#e1e8ff",
+                "surface-variant": "#d8e2ff",
+                "on-primary-container": "#c4d2ff",
+                "on-secondary-fixed": "#002113",
+                "success": "#36B37E",
+                "on-secondary-fixed-variant": "#005235",
+                "surface-bg": "#F4F5F7",
+                "border-subtle": "#DFE1E6",
+                "on-surface": "#051a3e",
+                "on-secondary": "#ffffff",
+                "on-primary": "#ffffff",
+                "surface-tint": "#0c56d0",
+                "primary-container": "#0052cc",
+                "on-error": "#ffffff",
+                "surface-container-lowest": "#ffffff",
+                "on-primary-fixed-variant": "#0040a2",
+                "surface-container-low": "#f1f3ff",
+                "tertiary-container": "#5b49b5",
+                "primary-fixed": "#dae2ff",
+                "background": "#faf9ff",
+                "on-tertiary-fixed": "#1a0063",
+                "secondary-fixed-dim": "#71dba6",
+                "surface": "#faf9ff"
+              },
+              "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+              },
+              "spacing": {
+                "stack-md": "12px",
+                "base": "8px",
+                "margin-desktop": "32px",
+                "margin-mobile": "16px",
+                "gutter": "24px",
+                "stack-sm": "4px",
+                "container-max": "1280px",
+                "stack-lg": "24px"
+              },
+              "fontFamily": {
+                "label-md": ["Inter"],
+                "headline-lg-mobile": ["Inter"],
+                "body-sm": ["Inter"],
+                "headline-lg": ["Inter"],
+                "title-lg": ["Inter"],
+                "display-lg": ["Inter"],
+                "body-lg": ["Inter"],
+                "body-md": ["Inter"],
+                "headline-md": ["Inter"]
+              },
+              "fontSize": {
+                "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                "display-lg": ["48px", {"lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #F4F5F7;
+            font-family: 'Inter', sans-serif;
+        }
+        .sidebar-item {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeIn 0.5s forwards ease-out;
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .progress-bar-fill {
+            width: 0;
+            transition: width 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- Sidebar (Student Dashboard Shell) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container-low flex flex-col p-stack-lg border-r border-border-subtle z-50">
+<div class="mb-10">
+<span class="font-headline-md text-headline-md font-bold text-primary block">Codivexa</span>
+</div>
+<div class="flex items-center gap-base mb-8 px-2">
+<div class="w-10 h-10 rounded-full bg-primary overflow-hidden shadow-sm">
+<img class="w-full h-full object-cover" data-alt="A professional student profile portrait, high-quality corporate headshot with soft studio lighting and a clean neutral background. The student is wearing professional attire, exuding confidence and academic focus, perfectly matching the modern LMS aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuADjMR1QR_ZluzUXexj-iPqzBwOS_yhkIg6lX2ASPvYkMCsOqUqd6dA78GO3volr2Z20bAeW-mRYAO1Q1C3xFQn3ui31Pbes7P-qaGbRSRo9fR0yd-IfkuFi2RzdjmKyRWRWfA9RjMHIHL0lJI8_fJBnAGC5Em403zR3vPMk_JBrK-6uqnSvOyBa1JLTF6qHnZ1uK-asC88iAu_LelX248ZqHyppyhM-6REREOiLOUry1DDxjMeDrRPBnm3lXzefBXnbESOtuLG5Lg"/>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface font-bold">Alex Johnson</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Learning Path</p>
+</div>
+</div>
+<nav class="space-y-2 flex-grow" id="dashboard-sidebar-nav">
+<!-- Active: My Courses -->
+<button onclick="switchTab('dashboard')" id="tab-btn-dashboard" class="w-full flex items-center gap-base bg-secondary-container text-on-secondary-container rounded-lg px-4 py-2 sidebar-item group transition-all">
+<span class="material-symbols-outlined text-primary" data-icon="school">school</span>
+<span class="font-label-md text-label-md">My Courses</span>
+</button>
+<button onclick="switchTab('certificates')" id="tab-btn-certificates" class="w-full flex items-center gap-base text-on-surface-variant px-4 py-2 rounded-lg sidebar-item hover:bg-surface-variant transition-all">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="card_membership">card_membership</span>
+<span class="font-label-md text-label-md">Certificates</span>
+</button>
+<button onclick="switchTab('settings')" id="tab-btn-settings" class="w-full flex items-center gap-base text-on-surface-variant px-4 py-2 rounded-lg sidebar-item hover:bg-surface-variant transition-all">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</button>
+<button onclick="handleLogout()" class="w-full flex items-center gap-base text-on-surface-variant px-4 py-2 rounded-lg sidebar-item hover:bg-error-container hover:text-on-error-container transition-all">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</button>
+</nav>
+<div class="mt-auto pt-8">
+<div class="bg-primary-container p-4 rounded-xl text-on-primary-container">
+<p class="font-label-md text-label-md font-bold mb-1">Upgrade to Pro</p>
+<p class="font-body-sm text-body-sm opacity-90 mb-3">Access unlimited certificates and exclusive webinars.</p>
+<button class="w-full bg-white text-primary font-label-md text-label-md py-2 rounded-lg hover:bg-opacity-90 transition-all active:scale-95">Upgrade</button>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 p-margin-desktop min-h-screen">
+<!-- Header -->
+<header class="flex justify-between items-center mb-10">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Welcome back, Alex!</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">You've completed 75% of your weekly learning goal.</p>
+</div>
+<div class="flex gap-stack-lg items-center">
+<button class="relative p-2 rounded-full hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="h-10 w-px bg-border-subtle mx-2"></div>
+<div class="text-right">
+<p class="font-label-md text-label-md font-bold text-on-surface">Level 4 Student</p>
+<p class="font-body-sm text-body-sm text-primary">1,240 XP</p>
+</div>
+</div>
+</header>
+<!-- Top Content Row: Continue Learning & Statistics -->
+<div id="view-dashboard" class="space-y-10">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Continue Learning Hero -->
+<section id="continue-learning-section" class="lg:col-span-2 relative overflow-hidden bg-primary rounded-xl shadow-md p-stack-lg text-white flex flex-col justify-between group h-[320px]">
+<div class="absolute top-0 right-0 w-1/2 h-full opacity-20 pointer-events-none">
+<div class="w-full h-full bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAPiVnDxOucAmOZI9CK_aiwMqDm4XHGDGxQF01QiMY8USJghCgf5Lf2c-McoJgiW6z2qoLHmUkjW9FL8D_0mFUQlqeyk1qYRBenV0qaN0Y2Mpd2mTZ27_jXrJ-8wUjy_tzKHmqBrQ0nNkJ3AH_TVDzlE_7nxXJn1MSPriWBY1C0hilgpQEDgoDBSpiXmKToQObfSllVi0j4fx__5FgrCb8PsEt90BH7tiNhFrBZ1e4b5oCvj9XHnZgV6rw5JKT7XCC_C3sPOinXE_s')"></div>
+</div>
+<div>
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full font-label-md text-label-md uppercase mb-4 inline-block">Active Course</span>
+<h2 class="font-headline-md text-headline-md font-bold max-w-md" id="active-course-title">Mastering Modern Full-Stack Development with Node.js</h2>
+<p class="font-body-md text-body-md opacity-80 mt-2" id="active-course-desc">Current Module: Database Optimization & Scalability</p>
+</div>
+<div class="flex items-end justify-between">
+<div class="flex-grow max-w-sm mr-gutter">
+<div class="flex justify-between font-label-md text-label-md mb-2">
+<span>Overall Progress</span>
+<span id="active-course-percent">64%</span>
+</div>
+<div class="h-2 w-full bg-white/20 rounded-full overflow-hidden">
+<div class="progress-bar-fill h-full bg-success" id="active-course-progress-bar" style="width: 64%;"></div>
+</div>
+</div>
+<button id="active-course-btn" class="bg-white text-primary px-8 py-3 rounded-lg font-label-md text-label-md font-bold hover:scale-105 active:scale-95 transition-all shadow-lg">
+                        Continue Learning
+                    </button>
+</div>
+</section>
+<!-- Statistics Grid -->
+<section class="bg-surface-card rounded-xl border border-border-subtle shadow-sm p-stack-lg flex flex-col justify-between">
+<h3 class="font-title-lg text-title-lg mb-6">Your Statistics</h3>
+<div class="grid grid-cols-1 gap-stack-lg flex-grow">
+<div class="flex items-center gap-4 bg-surface-container-low p-4 rounded-lg border border-border-subtle">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="auto_stories">auto_stories</span>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Courses Enrolled</p>
+<p class="font-headline-md text-headline-md font-bold text-on-surface counter" id="stat-enrolled" data-target="0">0</p>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-surface-container-low p-4 rounded-lg border border-border-subtle">
+<div class="w-12 h-12 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="workspace_premium">workspace_premium</span>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Certificates Earned</p>
+<p class="font-headline-md text-headline-md font-bold text-on-surface counter" id="stat-certificates" data-target="0">0</p>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-surface-container-low p-4 rounded-lg border border-border-subtle">
+<div class="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined" data-icon="schedule">schedule</span>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Videos Watched</p>
+<p class="font-headline-md text-headline-md font-bold text-on-surface counter" id="stat-videos" data-target="0">0</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+
+<!-- Middle Row: My Courses & Activity -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- My Courses Section -->
+<section class="lg:col-span-8">
+<div class="flex justify-between items-end mb-6">
+<h3 class="font-title-lg text-title-lg">My Enrolled Courses</h3>
+<button onclick="window.location.href='../course_catalog/code.html'" class="text-primary font-label-md text-label-md hover:underline">Browse Catalog</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-lg" id="my-courses-grid">
+<!-- Enrolled courses are dynamically listed here -->
+</div>
+</section>
+<!-- Recent Activity Timeline -->
+<section class="lg:col-span-4 bg-surface-card rounded-xl border border-border-subtle p-stack-lg shadow-sm flex flex-col justify-between">
+<div>
+<h3 class="font-title-lg text-title-lg mb-6">Recent Activity</h3>
+<div class="relative">
+<!-- Vertical Line -->
+<div class="absolute left-2.5 top-0 bottom-0 w-px bg-border-subtle"></div>
+<div class="space-y-8 relative">
+<!-- Activity Item 1 -->
+<div class="flex gap-4 fade-in" style="animation-delay: 0.1s;">
+<div class="z-10 w-5 h-5 rounded-full bg-success flex items-center justify-center ring-4 ring-white">
+<span class="material-symbols-outlined text-[12px] text-white" data-icon="check" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Registered Account</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Joined the Codivexa LMS platform.</p>
+</div>
+</div>
+<!-- Activity Item 2 -->
+<div class="flex gap-4 fade-in" style="animation-delay: 0.2s;">
+<div class="z-10 w-5 h-5 rounded-full bg-primary flex items-center justify-center ring-4 ring-white">
+<span class="material-symbols-outlined text-[12px] text-white" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Course Enrolled</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant" id="recent-activity-enrollment">Enrolled in AI & Machine Learning</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div> <!-- End #view-dashboard -->
+
+<!-- View Certificates -->
+<div id="view-certificates" class="hidden space-y-6">
+    <div class="bg-surface-card p-6 rounded-xl border border-border-subtle shadow-sm">
+        <h2 class="font-headline-md text-headline-md text-primary font-bold mb-2">My Certificates</h2>
+        <p class="font-body-md text-body-md text-on-surface-variant mb-6">Verify and download certificates for courses you have successfully completed.</p>
+        <div id="certificates-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Rendered dynamically -->
+        </div>
+    </div>
+</div>
+
+<!-- View Settings -->
+<div id="view-settings" class="hidden space-y-6">
+    <div class="bg-surface-card p-8 rounded-xl border border-border-subtle shadow-sm max-w-lg">
+        <h2 class="font-headline-md text-headline-md text-primary font-bold mb-2">Account Settings</h2>
+        <p class="font-body-md text-body-md text-on-surface-variant mb-6">Update your personal profile information below.</p>
+        <form id="settings-form" onsubmit="handleSettingsUpdate(event)" class="space-y-4">
+            <div>
+                <label class="block text-body-sm font-semibold mb-1 text-on-surface">Full Name</label>
+                <input type="text" id="settings-name" required class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary focus:outline-none text-body-sm">
+            </div>
+            <div>
+                <label class="block text-body-sm font-semibold mb-1 text-on-surface">Email Address</label>
+                <input type="email" id="settings-email" required class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary focus:outline-none text-body-sm">
+            </div>
+            <div>
+                <label class="block text-body-sm font-semibold mb-1 text-on-surface">Mobile Number</label>
+                <input type="tel" id="settings-mobile" required class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary focus:outline-none text-body-sm">
+            </div>
+            <div id="settings-success-msg" class="text-success text-xs hidden font-bold">Profile updated successfully!</div>
+            <button type="submit" class="w-full sm:w-auto px-6 py-3 bg-primary text-on-primary font-bold rounded-lg hover:bg-primary-container transition-all active:scale-95 shadow-sm">Save Changes</button>
+        </form>
+    </div>
+</div>
+</main>
+<script>
+        // Check session
+        const user = window.db.getLoggedInUser();
+        if (!user || user.role !== 'student') {
+            window.location.href = '../codivexa_landing_page/code.html';
+        }
+
+        // Handle Logout
+        function handleLogout() {
+            window.db.logoutUser();
+            window.location.href = '../codivexa_landing_page/code.html';
+        }
+
+        // Tab Manager
+        function switchTab(tabName) {
+            const views = {
+                'dashboard': document.getElementById('view-dashboard'),
+                'certificates': document.getElementById('view-certificates'),
+                'settings': document.getElementById('view-settings')
+            };
+
+            const buttons = {
+                'dashboard': document.getElementById('tab-btn-dashboard'),
+                'certificates': document.getElementById('tab-btn-certificates'),
+                'settings': document.getElementById('tab-btn-settings')
+            };
+
+            // Toggle views
+            Object.keys(views).forEach(key => {
+                if (key === tabName) {
+                    views[key].classList.remove('hidden');
+                } else {
+                    views[key].classList.add('hidden');
+                }
+            });
+
+            // Toggle sidebar button styles
+            Object.keys(buttons).forEach(key => {
+                if (key === tabName) {
+                    buttons[key].className = "w-full flex items-center gap-base bg-secondary-container text-on-secondary-container rounded-lg px-4 py-2 sidebar-item group transition-all font-bold";
+                    const icon = buttons[key].querySelector('span');
+                    if (icon) icon.className = "material-symbols-outlined text-primary";
+                } else {
+                    buttons[key].className = "w-full flex items-center gap-base text-on-surface-variant px-4 py-2 rounded-lg sidebar-item hover:bg-surface-variant transition-all";
+                    const icon = buttons[key].querySelector('span');
+                    if (icon) icon.className = "material-symbols-outlined text-on-surface-variant";
+                }
+            });
+
+            if (tabName === 'certificates') {
+                renderCertificates();
+            } else if (tabName === 'settings') {
+                initSettingsForm();
+            }
+        }
+
+        // Render dashboard details
+        function renderDashboard() {
+            // Set User Names in sidebar and header
+            document.querySelector('aside p.font-bold').textContent = user.name;
+            document.querySelector('header h1').textContent = "Welcome back, " + user.name + "!";
+
+            const enrollments = window.db.getUserEnrollments(user.id);
+            const certificates = window.db.getCertificates().filter(c => c.userId === user.id && c.status === 'issued');
+
+            // 1. Stats Counter values
+            let totalVideosWatched = 0;
+            enrollments.forEach(e => {
+                totalVideosWatched += e.completedVideos.length;
+            });
+
+            document.getElementById('stat-enrolled').textContent = enrollments.length;
+            document.getElementById('stat-enrolled').setAttribute('data-target', enrollments.length);
+            document.getElementById('stat-certificates').textContent = certificates.length;
+            document.getElementById('stat-certificates').setAttribute('data-target', certificates.length);
+            document.getElementById('stat-videos').textContent = totalVideosWatched;
+            document.getElementById('stat-videos').setAttribute('data-target', totalVideosWatched);
+
+            // 2. Active Course Hero Banner
+            const activeSection = document.getElementById('continue-learning-section');
+            if (enrollments.length > 0) {
+                // Find most recently active or first enrollment
+                const activeEnroll = enrollments[0];
+                const course = window.db.getCourse(activeEnroll.courseId);
+                
+                if (course) {
+                    document.getElementById('active-course-title').textContent = course.name;
+                    const nextVideoNum = activeEnroll.completedVideos.length + 1;
+                    const nextVideoTitle = nextVideoNum <= course.videos.length 
+                        ? `Next Module: Video ${nextVideoNum}`
+                        : "All Modules Completed - Take Assessment!";
+                    
+                    document.getElementById('active-course-desc').textContent = nextVideoTitle;
+                    document.getElementById('active-course-percent').textContent = activeEnroll.progress + "%";
+                    document.getElementById('active-course-progress-bar').style.width = activeEnroll.progress + "%";
+                    
+                    document.getElementById('active-course-btn').onclick = () => {
+                        window.location.href = `../course_player/code.html?courseId=${course.id}`;
+                    };
+
+                    document.getElementById('recent-activity-enrollment').textContent = `Currently studying: ${course.name}`;
+                }
+            } else {
+                // No courses enrolled yet
+                document.getElementById('active-course-title').textContent = "Start Your Learning Journey!";
+                document.getElementById('active-course-desc').textContent = "Enrolling in online certifications triggers career growth.";
+                document.getElementById('active-course-percent').textContent = "0%";
+                document.getElementById('active-course-progress-bar').style.width = "0%";
+                document.getElementById('active-course-btn').textContent = "Browse Catalog";
+                document.getElementById('active-course-btn').onclick = () => {
+                    window.location.href = '../course_catalog/code.html';
+                };
+            }
+
+            // 3. Render Enrolled Courses Grid
+            const coursesGrid = document.getElementById('my-courses-grid');
+            if (enrollments.length === 0) {
+                coursesGrid.innerHTML = `
+                    <div class="col-span-full py-8 text-center bg-white rounded-xl border border-border-subtle p-6">
+                        <span class="material-symbols-outlined text-5xl text-outline mb-2">school</span>
+                        <p class="font-body-md text-body-md text-on-surface-variant mb-4">You are not enrolled in any courses yet.</p>
+                        <button onclick="window.location.href='../course_catalog/code.html'" class="px-6 py-2 bg-primary text-on-primary rounded-lg font-bold">Browse Courses</button>
+                    </div>
+                `;
+            } else {
+                coursesGrid.innerHTML = enrollments.map(e => {
+                    const course = window.db.getCourse(e.courseId);
+                    if (!course) return '';
+                    return `
+                        <div onclick="window.location.href='../course_player/code.html?courseId=${course.id}'" class="bg-surface-card rounded-xl border border-border-subtle overflow-hidden hover:shadow-lg transition-shadow group cursor-pointer flex flex-col justify-between">
+                            <div>
+                                <div class="h-40 relative">
+                                    <img class="w-full h-full object-cover" src="${course.image}"/>
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end p-4">
+                                        <span class="bg-primary text-white font-label-md text-label-md px-2 py-1 rounded">${course.category}</span>
+                                    </div>
+                                </div>
+                                <div class="p-4">
+                                    <h4 class="font-title-lg text-title-lg mb-2 font-bold line-clamp-1 group-hover:text-primary transition-colors">${course.name}</h4>
+                                    <div class="flex items-center gap-4 text-on-surface-variant mb-4 text-xs">
+                                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">play_circle</span> ${course.videosCount} Lessons</span>
+                                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">schedule</span> ${course.duration}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-4 pt-0">
+                                <div class="space-y-1">
+                                    <div class="flex justify-between text-xs font-bold mb-1">
+                                        <span>Progress</span>
+                                        <span>${e.progress}%</span>
+                                    </div>
+                                    <div class="h-1.5 w-full bg-surface-container-high rounded-full overflow-hidden">
+                                        <div class="h-full bg-success transition-all duration-500" style="width: ${e.progress}%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        // Render Certificates tab
+        function renderCertificates() {
+            const certsGrid = document.getElementById('certificates-grid');
+            const certificates = window.db.getCertificates().filter(c => c.userId === user.id && c.status === 'issued');
+
+            if (certificates.length === 0) {
+                certsGrid.innerHTML = `
+                    <div class="col-span-full py-16 text-center text-outline">
+                        <span class="material-symbols-outlined text-6xl mb-2">card_membership</span>
+                        <p class="font-body-md text-body-md">You haven't earned any certificates yet.</p>
+                        <p class="text-xs text-on-surface-variant mt-1">Complete course videos and pass the assessment to earn credentials.</p>
+                    </div>
+                `;
+            } else {
+                certsGrid.innerHTML = certificates.map(c => {
+                    const course = window.db.getCourse(c.courseId);
+                    if (!course) return '';
+                    return `
+                        <div class="bg-white rounded-xl border border-border-subtle p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                            <div>
+                                <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-4">
+                                    <span class="material-symbols-outlined text-2xl">workspace_premium</span>
+                                </div>
+                                <h3 class="font-title-lg text-title-lg font-bold text-on-surface mb-1">${course.name}</h3>
+                                <p class="text-xs text-on-surface-variant mb-4">Issued: ${new Date(c.issueDate).toLocaleDateString()}</p>
+                                <p class="text-xs text-outline font-mono">ID: ${c.id}</p>
+                            </div>
+                            <button onclick="window.location.href='../course_certificate/code.html?courseId=${course.id}'" class="mt-6 w-full py-2 bg-primary text-on-primary rounded-lg font-bold text-xs hover:bg-primary-container transition-all">View Certificate</button>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        // Init Settings tab
+        function initSettingsForm() {
+            document.getElementById('settings-name').value = user.name;
+            document.getElementById('settings-email').value = user.email;
+            document.getElementById('settings-mobile').value = user.mobile;
+            document.getElementById('settings-success-msg').classList.add('hidden');
+        }
+
+        function handleSettingsUpdate(e) {
+            e.preventDefault();
+            const name = document.getElementById('settings-name').value;
+            const email = document.getElementById('settings-email').value;
+            const mobile = document.getElementById('settings-mobile').value;
+
+            const res = window.db.updateProfile(name, email, mobile);
+            if (res.success) {
+                // Update local session
+                user.name = name;
+                user.email = email;
+                user.mobile = mobile;
+                
+                const msg = document.getElementById('settings-success-msg');
+                msg.classList.remove('hidden');
+                setTimeout(() => {
+                    msg.classList.add('hidden');
+                }, 3000);
+                
+                // Re-render layout parameters
+                renderDashboard();
+            }
+        }
+
+        // Load dashboard on initialization
+        window.addEventListener('DOMContentLoaded', () => {
+            renderDashboard();
+
+            // Progress bar and counter triggers
+            const bars = document.querySelectorAll('.progress-bar-fill');
+            bars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 100);
+            });
+
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                if (target === 0) return;
+                const duration = 1000;
+                const increment = target / (duration / 16);
+                let current = 0;
+
+                const updateCounter = () => {
+                    current += increment;
+                    if (current < target) {
+                        counter.innerText = Math.ceil(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                setTimeout(updateCounter, 200);
+            });
+        });
+    </script>
+</body></html>

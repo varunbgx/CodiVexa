@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Codivexa | Course Certificate</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="../db.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            vertical-align: middle;
+        }
+        .certificate-canvas {
+            aspect-ratio: 1.414 / 1;
+            box-shadow: 0 20px 50px rgba(0, 61, 155, 0.1);
+        }
+        .guilloche-pattern {
+            background-image: radial-gradient(circle at 2px 2px, #003d9b 1px, transparent 0);
+            background-size: 24px 24px;
+            opacity: 0.05;
+        }
+        @media print {
+            .no-print { display: none; }
+            .certificate-canvas { box-shadow: none; border: 1px solid #ddd; }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#faf9ff",
+                        "on-background": "#051a3e",
+                        "on-secondary-container": "#00714b",
+                        "primary-fixed": "#dae2ff",
+                        "on-primary-fixed": "#001848",
+                        "surface-bg": "#F4F5F7",
+                        "on-tertiary": "#ffffff",
+                        "outline": "#737685",
+                        "surface-card": "#FFFFFF",
+                        "inverse-surface": "#1d3054",
+                        "on-tertiary-container": "#d5ccff",
+                        "on-tertiary-fixed": "#1a0063",
+                        "on-primary-fixed-variant": "#0040a2",
+                        "on-surface-variant": "#434654",
+                        "surface-container-high": "#e1e8ff",
+                        "secondary-fixed-dim": "#71dba6",
+                        "primary-fixed-dim": "#b2c5ff",
+                        "on-secondary": "#ffffff",
+                        "primary-container": "#0052cc",
+                        "tertiary-fixed-dim": "#c9bfff",
+                        "error": "#FF5630",
+                        "primary": "#003d9b",
+                        "surface-container-highest": "#d8e2ff",
+                        "surface-variant": "#d8e2ff",
+                        "on-primary-container": "#c4d2ff",
+                        "surface-dim": "#ccdaff",
+                        "surface-bright": "#faf9ff",
+                        "tertiary-fixed": "#e5deff",
+                        "secondary-fixed": "#8df7c1",
+                        "tertiary-container": "#5b49b5",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#edf0ff",
+                        "surface-container-lowest": "#ffffff",
+                        "info": "#00B8D9",
+                        "warning": "#FFAB00",
+                        "tertiary": "#432f9c",
+                        "surface-tint": "#0c56d0",
+                        "inverse-primary": "#b2c5ff",
+                        "secondary-container": "#8af5be",
+                        "error-container": "#ffdad6",
+                        "background": "#faf9ff",
+                        "on-secondary-fixed-variant": "#005235",
+                        "on-secondary-fixed": "#002113",
+                        "on-surface": "#051a3e",
+                        "outline-variant": "#c3c6d6",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#e9edff",
+                        "secondary": "#006c47",
+                        "on-tertiary-fixed-variant": "#4633a0",
+                        "border-subtle": "#DFE1E6",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f1f3ff",
+                        "success": "#36B37E"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "4px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "32px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "stack-md": "12px",
+                        "stack-lg": "24px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-surface-bg text-on-background font-body-md min-h-screen">
+<!-- TopNavBar -->
+<header class="bg-surface-container-lowest dark:bg-surface-container-highest docked full-width top-0 border-b border-border-subtle dark:border-outline-variant shadow-sm z-50 sticky no-print">
+<div class="flex justify-between items-center w-full px-margin-desktop py-base max-w-container-max mx-auto">
+<div class="flex items-center gap-gutter">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Codivexa</span>
+<nav class="hidden md:flex gap-base">
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary-container transition-colors duration-200" href="#">Browse Courses</a>
+</nav>
+</div>
+<div class="flex items-center gap-base">
+<div class="hidden md:flex items-center gap-stack-md mr-gutter animate-pulse">
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant flex items-center justify-center bg-primary text-on-primary font-bold text-xs" id="nav-initials">
+    JD
+</div>
+<span class="font-label-md text-label-md" id="nav-username">Alex Johnson</span>
+</div>
+<button onclick="handleLogout()" class="scale-95 active:scale-90 transition-transform bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md">Logout</button>
+</div>
+</div>
+</header>
+<div class="flex flex-col md:flex-row max-w-container-max mx-auto min-h-[calc(100vh-64px)]">
+<!-- SideNavBar (Student Context) -->
+<aside class="hidden md:flex flex-col h-auto w-64 bg-surface-container-low dark:bg-surface-dim border-r border-border-subtle dark:border-outline-variant p-stack-lg no-print">
+<div class="mb-gutter px-4" onclick="window.location.href='../student_dashboard/code.html'" class="cursor-pointer">
+<h3 class="font-title-lg text-title-lg text-primary font-bold">Student Dashboard</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Learning Path</p>
+</div>
+<nav class="flex flex-col gap-base flex-grow">
+<a class="flex items-center gap-base text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-variant transition-all rounded" href="../student_dashboard/code.html">
+<span class="material-symbols-outlined" data-icon="school">school</span>
+<span class="font-label-md text-label-md">My Courses</span>
+</a>
+<a class="flex items-center gap-base bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-lg px-4 py-2" href="../student_dashboard/code.html">
+<span class="material-symbols-outlined" data-icon="card_membership">card_membership</span>
+<span class="font-label-md text-label-md">Certificates</span>
+</a>
+<a class="flex items-center gap-base text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-variant transition-all rounded" href="../student_dashboard/code.html">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto p-4 bg-primary-container/10 rounded-xl border border-primary/20">
+<div class="flex items-center gap-stack-md mb-2">
+<span class="material-symbols-outlined text-primary" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-label-md text-label-md text-primary font-bold">Quick Tip</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Verify your name matches your ID before downloading.</p>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-grow p-margin-mobile md:p-margin-desktop overflow-y-auto">
+<!-- Success Message -->
+<div class="mb-gutter p-stack-lg bg-secondary-container/30 border border-secondary/20 rounded-xl flex items-center gap-gutter no-print animate-in fade-in slide-in-from-top-4 duration-500" id="success-banner">
+<div class="bg-secondary text-on-secondary p-3 rounded-full">
+<span class="material-symbols-outlined" data-icon="celebration">celebration</span>
+</div>
+<div>
+<h2 class="font-title-lg text-title-lg text-on-secondary-container">Congratulations!</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">You've successfully completed the course. Your achievement is ready for the world to see.</p>
+</div>
+<button class="ml-auto text-on-surface-variant hover:text-on-background" onclick="this.parentElement.remove()">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-gutter">
+<!-- Certificate Display -->
+<div class="xl:col-span-8 flex flex-col gap-stack-lg">
+<div class="certificate-canvas relative bg-white rounded-sm overflow-hidden border-[12px] border-primary/10 p-12 flex flex-col items-center justify-between text-center select-none">
+<!-- Decorative Corners -->
+<div class="absolute top-0 left-0 w-32 h-32 border-t-[1px] border-l-[1px] border-primary/40 m-4"></div>
+<div class="absolute top-0 right-0 w-32 h-32 border-t-[1px] border-r-[1px] border-primary/40 m-4"></div>
+<div class="absolute bottom-0 left-0 w-32 h-32 border-b-[1px] border-l-[1px] border-primary/40 m-4"></div>
+<div class="absolute bottom-0 right-0 w-32 h-32 border-b-[1px] border-r-[1px] border-primary/40 m-4"></div>
+<!-- Background Texture -->
+<div class="absolute inset-0 guilloche-pattern pointer-events-none"></div>
+<!-- Header -->
+<div class="z-10 mt-8">
+<div class="flex flex-col items-center gap-2 mb-8">
+<span class="font-headline-md text-headline-md font-bold text-primary mb-2">Codivexa</span>
+<div class="h-px w-24 bg-primary/30"></div>
+<span class="font-label-md text-label-md tracking-widest text-primary uppercase">Certificate of Excellence</span>
+</div>
+</div>
+<!-- Body -->
+<div class="z-10 flex flex-col items-center gap-base">
+<span class="font-body-md text-body-md italic text-on-surface-variant">This is to certify that</span>
+<h1 class="font-display-lg text-display-lg text-primary my-4 font-bold" id="cert-recipient-name">Alex Johnson</h1>
+<span class="font-body-md text-body-md italic text-on-surface-variant">has successfully completed the professional course in</span>
+<h2 class="font-headline-lg text-headline-lg text-on-background mt-2 font-bold" id="cert-course-name">AI &amp; Machine Learning</h2>
+<p class="max-w-xl font-body-sm text-body-sm text-on-surface-variant mt-4 leading-relaxed">
+                                Demonstrating proficiency in neural network architectures, predictive modeling, and deep learning algorithms through rigorous examination and project-based assessments.
+                            </p>
+</div>
+<!-- Footer -->
+<div class="z-10 w-full flex justify-between items-end mt-12 px-8">
+<div class="text-left">
+<p class="font-label-md text-label-md text-on-surface-variant">Date of Issue</p>
+<p class="font-title-lg text-title-lg border-b border-primary/20 pb-1" id="cert-issue-date">October 24, 2024</p>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-24 h-24 bg-primary-container/5 border border-primary-container/20 rounded-full flex items-center justify-center relative">
+<!-- Simple Seal Placeholder -->
+<div class="absolute inset-0 border-4 border-dashed border-primary/10 rounded-full animate-[spin_20s_linear_infinite]"></div>
+<span class="material-symbols-outlined text-primary text-5xl" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<p class="font-label-md text-label-md text-primary font-bold uppercase tracking-tighter">Official Seal</p>
+</div>
+<div class="text-right">
+<div class="mb-2">
+<img class="h-12 w-auto ml-auto filter brightness-75" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIeCAJBXiDlpkFWbRqPygEbeisijRdhwl1chuIy2WujEa4pa6k-HDhh5i97VvcUngCEZaG4Im7jjPly9SR0ywh-n9rn3XhUsX3Otb8LstjP7_IsWSNK1oVgkqhCvHznIWK2-aBP9I4ar5gwCbpZ-U6L3yVk2lTXUJ54MTpLmHOzaEygN1VLwbW19C1Rr2WFgWU_QRiyweZdnwOGHvhsHc2TNGb5SeU1ZW46Q5qHXZrOd4pXiZ0E0uUHbzIy-Y3Nmnz5zgkSQvvOBA"/>
+</div>
+<p class="font-title-lg text-title-lg border-b border-primary/20 pb-1">Dr. Elena Thorne</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Director of Learning</p>
+</div>
+</div>
+<!-- ID -->
+<div class="z-10 absolute bottom-8 left-1/2 -translate-x-1/2">
+<p class="font-label-md text-label-md text-outline" id="cert-id-label">Certificate ID: CDV-8829-XL-2024</p>
+</div>
+</div>
+</div>
+<!-- Action Sidebar -->
+<div class="xl:col-span-4 flex flex-col gap-gutter no-print">
+<!-- Download Card -->
+<div class="bg-surface-card rounded-xl border border-border-subtle p-stack-lg shadow-sm">
+<h3 class="font-title-lg text-title-lg mb-stack-lg">Manage Certificate</h3>
+<div class="flex flex-col gap-base">
+<button id="cert-download-btn" onclick="window.print()" class="flex items-center justify-center gap-base w-full py-4 bg-primary text-on-primary rounded-lg font-bold transition-transform active:scale-95 hover:bg-primary-container">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+                                Download Certificate (PDF)
+                            </button>
+<button id="cert-linkedin-btn" onclick="shareCertificate()" class="flex items-center justify-center gap-base w-full py-4 bg-surface-bg border border-outline-variant text-on-background rounded-lg font-bold transition-all hover:bg-surface-container-high active:scale-95">
+<span class="material-symbols-outlined" data-icon="share">share</span>
+                                Share Certificate
+                            </button>
+</div>
+<div class="mt-gutter pt-gutter border-t border-border-subtle">
+<p class="font-label-md text-label-md text-outline mb-2 uppercase">Direct Link</p>
+<div class="flex gap-2">
+<input id="cert-direct-link-input" class="flex-grow bg-surface-container-low border-border-subtle rounded-lg text-body-sm px-4 focus:ring-primary focus:border-primary py-2" readonly="" type="text" value="https://codivexa.edu/verify/CDV-8829"/>
+<button id="cert-copy-btn" onclick="copyVerificationLink()" class="p-2 text-primary hover:bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined" data-icon="content_copy">content_copy</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Details Card -->
+<div class="bg-surface-card rounded-xl border border-border-subtle p-stack-lg shadow-sm">
+<h3 class="font-title-lg text-title-lg mb-stack-lg">Verification Details</h3>
+<div class="space-y-4">
+<div class="flex justify-between">
+<span class="text-on-surface-variant font-body-sm">Issuer</span>
+<span class="font-bold text-body-sm">Codivexa Learning</span>
+</div>
+<div class="flex justify-between">
+<span class="text-on-surface-variant font-body-sm">Course Credits</span>
+<span class="font-bold text-body-sm">12.5 CPD</span>
+</div>
+<div class="flex justify-between">
+<span class="text-on-surface-variant font-body-sm">Grade Achieved</span>
+<span class="text-success font-bold text-body-sm">Distinction (94%)</span>
+</div>
+<div class="flex justify-between">
+<span class="text-on-surface-variant font-body-sm">Expiry</span>
+<span class="font-bold text-body-sm">None (Lifetime)</span>
+</div>
+</div>
+<div class="mt-gutter pt-gutter border-t border-border-subtle flex items-center gap-base">
+<span class="material-symbols-outlined text-info" data-icon="info">info</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">This certificate is blockchain-verified.</p>
+</div>
+</div>
+<!-- Promotion/Next Step -->
+<div class="relative overflow-hidden bg-primary rounded-xl p-stack-lg shadow-md text-on-primary">
+
+<div class="relative z-10">
+<h4 class="font-title-lg text-title-lg mb-2">Ready for the next level?</h4>
+<p class="font-body-sm text-body-sm opacity-90 mb-4">Advance to "Deep Learning &amp; Neural Networks" and get 20% off as an alum.</p>
+<button class="w-full py-2 bg-on-primary text-primary rounded-lg font-label-md font-bold uppercase transition-transform hover:scale-105">View Advanced Course</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-on-background dark:bg-surface-container-lowest text-surface-card dark:text-on-surface no-print mt-margin-desktop">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-desktop py-stack-lg max-w-container-max mx-auto">
+<div class="md:col-span-1">
+<span class="font-headline-md text-headline-md font-bold text-surface-card dark:text-on-surface">Codivexa</span>
+<p class="font-body-sm text-body-sm text-surface-variant dark:text-on-surface-variant mt-4">
+                    Empowering the next generation of digital leaders through high-performance learning.
+                </p>
+</div>
+<div class="flex flex-col gap-2">
+<h5 class="font-title-lg text-title-lg mb-2">Resources</h5>
+<a class="font-body-sm text-body-sm text-surface-variant hover:text-secondary-container" href="#">Browse Courses</a>
+<a class="font-body-sm text-body-sm text-surface-variant hover:text-secondary-container" href="#">Success Stories</a>
+<a class="font-body-sm text-body-sm text-surface-variant hover:text-secondary-container" href="#">Blog</a>
+</div>
+<div class="flex flex-col gap-2">
+<h5 class="font-title-lg text-title-lg mb-2">Company</h5>
+<a class="font-body-sm text-body-sm text-surface-variant hover:text-secondary-container" href="#">About Us</a>
+<a class="font-body-sm text-body-sm text-surface-variant hover:text-secondary-container" href="#">Contact Support</a>
+<a class="font-body-sm text-body-sm text-surface-variant hover:text-secondary-container" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-surface-variant hover:text-secondary-container" href="#">Terms of Service</a>
+</div>
+<div class="flex flex-col gap-2">
+<h5 class="font-title-lg text-title-lg mb-2">Connect</h5>
+<div class="flex gap-4">
+<button class="w-10 h-10 rounded-full border border-outline flex items-center justify-center opacity-80 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined" data-icon="language">language</span>
+</button>
+<button class="w-10 h-10 rounded-full border border-outline flex items-center justify-center opacity-80 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined" data-icon="share">share</span>
+</button>
+</div>
+</div>
+</div>
+<div class="border-t border-outline/20 px-margin-desktop py-4 max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-body-sm text-body-sm text-surface-variant">© 2024 Codivexa Learning Systems. All rights reserved.</p>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-surface-variant text-sm" data-icon="security">security</span>
+<span class="material-symbols-outlined text-surface-variant text-sm" data-icon="workspace_premium">workspace_premium</span>
+<span class="material-symbols-outlined text-surface-variant text-sm" data-icon="encrypted">encrypted</span>
+</div>
+</div>
+</footer>
+<script>
+        // Check session
+        const user = window.db.getLoggedInUser();
+        if (!user) {
+            window.location.href = '../codivexa_landing_page/code.html';
+        }
+
+        // Get Course Info & Certificate
+        const urlParams = new URLSearchParams(window.location.search);
+        const courseId = urlParams.get('courseId') || 'course-1';
+        const course = window.db.getCourse(courseId);
+        
+        if (!course) {
+            alert("Course not found!");
+            window.location.href = '../student_dashboard/code.html';
+        }
+
+        const certificates = window.db.getCertificates().filter(c => c.userId === user.id && c.courseId === course.id && c.status === 'issued');
+        if (certificates.length === 0) {
+            alert("You have not earned a certificate for this course yet!");
+            window.location.href = `../student_dashboard/code.html`;
+        }
+
+        const cert = certificates[0];
+
+        // Render details
+        function renderCertificateDetails() {
+            // Navbar details
+            document.getElementById('nav-username').textContent = user.name;
+            const initials = user.name.split(' ').map(n => n[0]).join('').toUpperCase();
+            document.getElementById('nav-initials').textContent = initials;
+
+            // Certificate Canvas Details
+            document.getElementById('cert-recipient-name').textContent = user.name;
+            document.getElementById('cert-course-name').textContent = course.name;
+            
+            const issueDateStr = new Date(cert.issueDate).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            document.getElementById('cert-issue-date').textContent = issueDateStr;
+            document.getElementById('cert-id-label').textContent = "Certificate ID: " + cert.id;
+
+            // Direct Link
+            document.getElementById('cert-direct-link-input').value = window.location.href;
+        }
+
+        function handleLogout() {
+            window.db.logoutUser();
+            window.location.href = '../codivexa_landing_page/code.html';
+        }
+
+        function copyVerificationLink() {
+            const input = document.getElementById('cert-direct-link-input');
+            input.select();
+            input.setSelectionRange(0, 99999); // For mobile devices
+            navigator.clipboard.writeText(input.value);
+            alert("Verification link copied to clipboard!");
+        }
+
+        function shareCertificate() {
+            alert(`Preparing post share to LinkedIn for "${course.name}" Certificate (ID: ${cert.id})...`);
+        }
+
+        // Initialize state
+        window.addEventListener('DOMContentLoaded', () => {
+            renderCertificateDetails();
+        });
+    </script>
+</body></html>

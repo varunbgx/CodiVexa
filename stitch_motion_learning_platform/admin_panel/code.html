@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Codivexa - Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="../db.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#e5deff",
+                        "surface-card": "#FFFFFF",
+                        "on-tertiary-fixed-variant": "#4633a0",
+                        "inverse-on-surface": "#edf0ff",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#432f9c",
+                        "surface-bright": "#faf9ff",
+                        "surface-container": "#e9edff",
+                        "tertiary-fixed-dim": "#c9bfff",
+                        "error": "#FF5630",
+                        "secondary": "#006c47",
+                        "on-secondary-container": "#00714b",
+                        "outline-variant": "#c3c6d6",
+                        "on-surface-variant": "#434654",
+                        "inverse-surface": "#1d3054",
+                        "secondary-container": "#8af5be",
+                        "secondary-fixed": "#8df7c1",
+                        "on-background": "#051a3e",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#d8e2ff",
+                        "error-container": "#ffdad6",
+                        "warning": "#FFAB00",
+                        "on-primary-fixed": "#001848",
+                        "inverse-primary": "#b2c5ff",
+                        "primary-fixed-dim": "#b2c5ff",
+                        "outline": "#737685",
+                        "surface-dim": "#ccdaff",
+                        "primary": "#003d9b",
+                        "on-tertiary-container": "#d5ccff",
+                        "info": "#00B8D9",
+                        "surface-container-high": "#e1e8ff",
+                        "surface-variant": "#d8e2ff",
+                        "on-primary-container": "#c4d2ff",
+                        "on-secondary-fixed": "#002113",
+                        "success": "#36B37E",
+                        "on-secondary-fixed-variant": "#005235",
+                        "surface-bg": "#F4F5F7",
+                        "border-subtle": "#DFE1E6",
+                        "on-surface": "#051a3e",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface-tint": "#0c56d0",
+                        "primary-container": "#0052cc",
+                        "on-error": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed-variant": "#0040a2",
+                        "surface-container-low": "#f1f3ff",
+                        "tertiary-container": "#5b49b5",
+                        "primary-fixed": "#dae2ff",
+                        "background": "#faf9ff",
+                        "on-tertiary-fixed": "#1a0063",
+                        "secondary-fixed-dim": "#71dba6",
+                        "surface": "#faf9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "12px",
+                        "base": "8px",
+                        "margin-desktop": "32px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "stack-sm": "4px",
+                        "container-max": "1280px",
+                        "stack-lg": "24px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .pulse-glow {
+            box-shadow: 0 0 0 0 rgba(54, 179, 126, 0.7);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(54, 179, 126, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(54, 179, 126, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(54, 179, 126, 0); }
+        }
+        .chart-bar {
+            animation: growUp 1s ease-out forwards;
+            transform-origin: bottom;
+        }
+        @keyframes growUp {
+            from { transform: scaleY(0); }
+            to { transform: scaleY(1); }
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c3c6d6;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-surface-bg text-on-surface">
+<!-- Admin SideNavBar -->
+<aside class="h-screen w-72 fixed left-0 top-0 bg-surface-container-high dark:bg-inverse-surface border-r border-border-subtle dark:border-outline-variant shadow-md flex flex-col p-stack-lg z-50">
+<div class="mb-stack-lg">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Codivexa</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Admin Panel</p>
+</div>
+<div class="flex items-center gap-base mb-stack-lg p-2 bg-surface-container-lowest rounded-lg">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-primary-container flex items-center justify-center text-on-primary-container font-bold">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a senior system administrator in a modern office, wearing professional attire, clean lighting, corporate photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrC5ghfXPVbCpWRF-m2D4z-8pSRLP2yjbZq-sSBwrT5Jwz9RwZ-8YONVerDLOP0E0483Vu1Z1EiWb4qvShCf985trsjZbud-mj6dxr_XsEc7DKEU9NmUR6W4Y2m7TJw0TXV4v4wnL7-B1zZUMzNmcF39sML5zzOfUMmHYdp3WzYWxRnM5dp2anpWEdd-hZ6WqZc7HnYGQqK4uhY7beeWiDTRL2D9eDGNRqmfwXCEhH76-EFJcMUpzKb9wBYBSJ3efF_cyNEj_Jpzc"/>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Alex Thompson</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">System Overview</p>
+</div>
+</div>
+<nav class="flex-1 space-y-2" id="admin-sidebar-nav">
+<button onclick="switchTab('overview')" id="tab-btn-overview" class="w-full text-left flex items-center gap-base bg-primary text-on-primary rounded-lg px-4 py-2 transition-all font-bold">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">Overview</span>
+</button>
+<button onclick="switchTab('courses')" id="tab-btn-courses" class="w-full text-left flex items-center gap-base text-on-surface-variant dark:text-outline-variant px-4 py-2 hover:bg-primary-container dark:hover:bg-primary-fixed-variant transition-all">
+<span class="material-symbols-outlined">edit_note</span>
+<span class="font-label-md text-label-md">Course Management</span>
+</button>
+<button onclick="switchTab('students')" id="tab-btn-students" class="w-full text-left flex items-center gap-base text-on-surface-variant dark:text-outline-variant px-4 py-2 hover:bg-primary-container dark:hover:bg-primary-fixed-variant transition-all">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md text-label-md">Student Directory</span>
+</button>
+<button onclick="switchTab('certificates')" id="tab-btn-certificates" class="w-full text-left flex items-center gap-base text-on-surface-variant dark:text-outline-variant px-4 py-2 hover:bg-primary-container dark:hover:bg-primary-fixed-variant transition-all">
+<span class="material-symbols-outlined">workspace_premium</span>
+<span class="font-label-md text-label-md">Certificates Directory</span>
+</button>
+<button onclick="switchTab('financial')" id="tab-btn-financial" class="w-full text-left flex items-center gap-base text-on-surface-variant dark:text-outline-variant px-4 py-2 hover:bg-primary-container dark:hover:bg-primary-fixed-variant transition-all">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md text-label-md">Transactions Log</span>
+</button>
+</nav>
+<div class="mt-auto pt-stack-lg border-t border-border-subtle">
+<button onclick="handleLogout()" class="w-full flex items-center gap-base text-on-surface-variant px-4 py-2 hover:bg-error-container hover:text-on-error-container rounded-lg transition-all">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-72 p-margin-desktop min-h-screen">
+<!-- Header Section -->
+<header class="flex justify-between items-center mb-stack-lg no-print">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold" id="admin-view-title">Dashboard Overview</h2>
+<p class="font-body-md text-body-md text-on-surface-variant" id="admin-view-subtitle">System performance monitor and platform statistics overview.</p>
+</div>
+<!-- System Status Widget -->
+<div class="bg-surface-card border border-border-subtle rounded-xl p-4 flex items-center gap-stack-md shadow-sm">
+<div class="relative">
+<div class="w-3 h-3 bg-success rounded-full pulse-glow"></div>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">System Status</p>
+<p class="font-body-sm text-body-sm text-success font-semibold">All Systems Operational</p>
+</div>
+</div>
+</header>
+
+<!-- Platform Overview View -->
+<div id="view-overview" class="space-y-stack-lg">
+    <!-- Metrics Bento Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-gutter mb-stack-lg">
+    <!-- Revenue Card -->
+    <div class="col-span-1 md:col-span-2 bg-surface-card rounded-xl p-stack-lg border border-border-subtle shadow-sm overflow-hidden relative group flex flex-col justify-between min-h-[160px]">
+    <div class="flex justify-between items-start mb-base">
+    <div>
+    <p class="font-label-md text-label-md text-on-surface-variant uppercase">Revenue Analysis</p>
+    <h3 class="font-headline-md text-headline-md text-primary font-extrabold" id="metric-revenue">₹0.00</h3>
+    </div>
+    <span class="bg-secondary-container text-on-secondary-container px-2 py-1 rounded-full text-xs font-bold font-mono">+18.4%</span>
+    </div>
+    <!-- Mini Animated Bar Chart -->
+    <div class="flex items-end gap-2 h-20 mt-4">
+    <div class="bg-primary-container w-full h-[40%] rounded-sm"></div>
+    <div class="bg-primary-container w-full h-[60%] rounded-sm"></div>
+    <div class="bg-primary-container w-full h-[35%] rounded-sm"></div>
+    <div class="bg-primary-container w-full h-[85%] rounded-sm"></div>
+    <div class="bg-primary-container w-full h-[55%] rounded-sm"></div>
+    <div class="bg-primary-container w-full h-[75%] rounded-sm"></div>
+    <div class="bg-primary-container w-full h-[95%] rounded-sm"></div>
+    </div>
+    </div>
+    <!-- Enrollment Card -->
+    <div class="bg-surface-card rounded-xl p-stack-lg border border-border-subtle shadow-sm flex flex-col justify-between min-h-[160px]">
+    <div>
+    <p class="font-label-md text-label-md text-on-surface-variant uppercase">Total Enrollments</p>
+    <h3 class="font-headline-md text-headline-md text-on-surface font-extrabold" id="metric-enrollments">0</h3>
+    </div>
+    <div class="h-10 flex items-center justify-center">
+    <svg class="w-full h-full stroke-success fill-none stroke-2" viewbox="0 0 100 40">
+    <path d="M0,35 Q25,30 50,20 T100,5" stroke-linecap="round"></path>
+    </svg>
+    </div>
+    <p class="font-body-sm text-body-sm text-on-surface-variant">Active Learners Online</p>
+    </div>
+    <!-- Quick Actions -->
+    <div class="bg-primary-container text-on-primary-container rounded-xl p-stack-lg border border-primary shadow-md flex flex-col gap-stack-md justify-between min-h-[160px]">
+    <h3 class="font-title-lg text-title-lg font-bold">Quick Actions</h3>
+    <button onclick="switchTab('courses'); openCreateCourseModal();" class="bg-surface-card text-primary font-label-md text-label-md py-2.5 rounded-lg flex items-center justify-center gap-2 hover:bg-primary-fixed transition-colors active:scale-95 duration-200 shadow-sm font-bold">
+    <span class="material-symbols-outlined text-[18px]">add_circle</span>
+                        Create New Course
+                    </button>
+    <button onclick="switchTab('certificates'); openIssueCertModal();" class="bg-surface-card text-primary font-label-md text-label-md py-2.5 rounded-lg flex items-center justify-center gap-2 hover:bg-primary-fixed transition-colors active:scale-95 duration-200 shadow-sm font-bold">
+    <span class="material-symbols-outlined text-[18px]">workspace_premium</span>
+                        Issue Certificate
+                    </button>
+    </div>
+    </div>
+    <!-- Tables & Detailed Metrics -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+    <!-- Recent Students Table -->
+    <div class="lg:col-span-2 bg-surface-card rounded-xl border border-border-subtle shadow-sm overflow-hidden flex flex-col">
+    <div class="p-stack-lg border-b border-border-subtle flex flex-col md:flex-row justify-between items-center gap-stack-md">
+    <h3 class="font-title-lg text-title-lg text-on-surface font-bold">Registered Users Overview</h3>
+    <button onclick="switchTab('students')" class="text-primary font-label-md text-label-md hover:underline font-bold">View Student Directory</button>
+    </div>
+    <div class="overflow-x-auto">
+    <table class="w-full text-left">
+    <thead class="bg-surface-container-low text-on-surface-variant font-label-md text-label-md">
+    <tr>
+    <th class="px-6 py-4">Student</th>
+    <th class="px-6 py-4">Email</th>
+    <th class="px-6 py-4">Role</th>
+    <th class="px-6 py-4 text-right">Status</th>
+    </tr>
+    </thead>
+    <tbody id="overview-students-tbody" class="divide-y divide-border-subtle font-body-sm text-body-sm">
+        <!-- Loaded dynamically -->
+    </tbody>
+    </table>
+    </div>
+    </div>
+    <!-- Platform Health / Performance -->
+    <div class="flex flex-col gap-gutter">
+    <div class="bg-surface-card rounded-xl border border-border-subtle shadow-sm p-stack-lg flex-1">
+    <h3 class="font-title-lg text-title-lg text-on-surface font-bold mb-stack-md">Platform Resource Usage</h3>
+    <div class="space-y-stack-lg">
+    <div>
+    <div class="flex justify-between mb-2">
+    <span class="font-body-sm text-body-sm text-on-surface-variant">Course Videos Storage</span>
+    <span class="font-label-md text-label-md">85%</span>
+    </div>
+    <div class="w-full bg-surface-container rounded-full h-2">
+    <div class="bg-error h-full rounded-full" style="width: 85%"></div>
+    </div>
+    </div>
+    <div>
+    <div class="flex justify-between mb-2">
+    <span class="font-body-sm text-body-sm text-on-surface-variant">Student Assets</span>
+    <span class="font-label-md text-label-md">42%</span>
+    </div>
+    <div class="w-full bg-surface-container rounded-full h-2">
+    <div class="bg-primary h-full rounded-full" style="width: 42%"></div>
+    </div>
+    </div>
+    <div>
+    <div class="flex justify-between mb-2">
+    <span class="font-body-sm text-body-sm text-on-surface-variant">Database Logs</span>
+    <span class="font-label-md text-label-md">12%</span>
+    </div>
+    <div class="w-full bg-surface-container rounded-full h-2">
+    <div class="bg-success h-full rounded-full" style="width: 12%"></div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <!-- Server Status Mini Card -->
+    <div class="bg-inverse-surface text-inverse-on-surface rounded-xl p-stack-lg shadow-lg">
+    <div class="flex items-center gap-base mb-2">
+    <span class="material-symbols-outlined text-success">dns</span>
+    <h4 class="font-label-md text-label-md font-bold">Region: North India (AWS)</h4>
+    </div>
+    <p class="font-body-sm text-body-sm opacity-80">Latency: 12ms</p>
+    <p class="font-body-sm text-body-sm opacity-80">Uptime: 99.999%</p>
+    </div>
+    </div>
+    </div>
+</div>
+
+<!-- Course Management View -->
+<div id="view-courses" class="hidden space-y-stack-lg">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h2 class="font-headline-lg text-headline-lg text-on-surface font-bold">Course Library</h2>
+            <p class="font-body-md text-body-md text-on-surface-variant">View courses, publish new curricula, or archive old lectures.</p>
+        </div>
+        <button onclick="openCreateCourseModal()" class="bg-primary text-on-primary px-6 py-3 rounded-lg font-bold hover:bg-primary-container transition-all flex items-center gap-base shadow-md">
+            <span class="material-symbols-outlined">add_circle</span> Publish New Course
+        </button>
+    </div>
+    <div class="bg-surface-card rounded-xl border border-border-subtle shadow-sm overflow-hidden">
+        <table class="w-full text-left">
+            <thead class="bg-surface-container-low text-on-surface-variant font-label-md text-label-md">
+                <tr>
+                    <th class="px-6 py-4">Title</th>
+                    <th class="px-6 py-4">Category</th>
+                    <th class="px-6 py-4">Price</th>
+                    <th class="px-6 py-4">Duration</th>
+                    <th class="px-6 py-4">Difficulty</th>
+                    <th class="px-6 py-4 text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="admin-courses-table-body" class="divide-y divide-border-subtle font-body-sm text-body-sm">
+                <!-- Loaded dynamically -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Student Directory View -->
+<div id="view-students" class="hidden space-y-stack-lg">
+    <div>
+        <h2 class="font-headline-lg text-headline-lg text-on-surface font-bold">Registered Users</h2>
+        <p class="font-body-md text-body-md text-on-surface-variant">Toggle blocking state to moderate candidate login credentials.</p>
+    </div>
+    <div class="bg-surface-card rounded-xl border border-border-subtle shadow-sm overflow-hidden">
+        <table class="w-full text-left">
+            <thead class="bg-surface-container-low text-on-surface-variant font-label-md text-label-md">
+                <tr>
+                    <th class="px-6 py-4">Candidate Name</th>
+                    <th class="px-6 py-4">Email</th>
+                    <th class="px-6 py-4">Mobile</th>
+                    <th class="px-6 py-4">Role</th>
+                    <th class="px-6 py-4">Status</th>
+                    <th class="px-6 py-4 text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="admin-students-table-body" class="divide-y divide-border-subtle font-body-sm text-body-sm">
+                <!-- Loaded dynamically -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Certificates Directory View -->
+<div id="view-certificates" class="hidden space-y-stack-lg">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h2 class="font-headline-lg text-headline-lg text-on-surface font-bold">Credentials Database</h2>
+            <p class="font-body-md text-body-md text-on-surface-variant">Manually generate credentials or revoke certificates.</p>
+        </div>
+        <button onclick="openIssueCertModal()" class="bg-primary text-on-primary px-6 py-3 rounded-lg font-bold hover:bg-primary-container transition-all flex items-center gap-base shadow-md">
+            <span class="material-symbols-outlined">workspace_premium</span> Issue Certificate
+        </button>
+    </div>
+    <div class="bg-surface-card rounded-xl border border-border-subtle shadow-sm overflow-hidden">
+        <table class="w-full text-left">
+            <thead class="bg-surface-container-low text-on-surface-variant font-label-md text-label-md">
+                <tr>
+                    <th class="px-6 py-4">Certificate ID</th>
+                    <th class="px-6 py-4">Student</th>
+                    <th class="px-6 py-4">Course</th>
+                    <th class="px-6 py-4">Issue Date</th>
+                    <th class="px-6 py-4">Status</th>
+                    <th class="px-6 py-4 text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="admin-certs-table-body" class="divide-y divide-border-subtle font-body-sm text-body-sm">
+                <!-- Loaded dynamically -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Transactions Log View -->
+<div id="view-financial" class="hidden space-y-stack-lg">
+    <div>
+        <h2 class="font-headline-lg text-headline-lg text-on-surface font-bold">Payments Ledger</h2>
+        <p class="font-body-md text-body-md text-on-surface-variant">Track all platform invoice receipts generated during checkout.</p>
+    </div>
+    <div class="bg-surface-card rounded-xl border border-border-subtle shadow-sm overflow-hidden">
+        <table class="w-full text-left">
+            <thead class="bg-surface-container-low text-on-surface-variant font-label-md text-label-md">
+                <tr>
+                    <th class="px-6 py-4">Receipt ID</th>
+                    <th class="px-6 py-4">Student Email</th>
+                    <th class="px-6 py-4">Purchased Course</th>
+                    <th class="px-6 py-4">Method</th>
+                    <th class="px-6 py-4">Date</th>
+                    <th class="px-6 py-4 text-right">Amount Paid</th>
+                </tr>
+            </thead>
+            <tbody id="admin-transactions-table-body" class="divide-y divide-border-subtle font-body-sm text-body-sm">
+                <!-- Loaded dynamically -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Create Course Modal -->
+<div id="create-course-modal" class="fixed inset-0 bg-on-background/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-margin-mobile">
+    <div class="bg-surface-card rounded-2xl max-w-md w-full p-stack-lg shadow-2xl scale-95 opacity-0 transition-all duration-300 transform" id="course-modal-content">
+        <div class="flex justify-between items-center border-b border-border-subtle pb-4 mb-4">
+            <h3 class="font-headline-md text-headline-md text-primary font-bold">Publish New Course</h3>
+            <button class="material-symbols-outlined text-outline hover:text-on-surface" onclick="closeCreateCourseModal()">close</button>
+        </div>
+        <form onsubmit="handleCreateCourse(event)" class="space-y-4">
+            <div>
+                <label class="block text-body-sm font-semibold mb-1 text-on-surface">Course Title</label>
+                <input type="text" id="course-form-name" required class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary focus:outline-none text-body-sm" placeholder="AI & Neural Networks Masterclass">
+            </div>
+            <div>
+                <label class="block text-body-sm font-semibold mb-1 text-on-surface">Description</label>
+                <textarea id="course-form-desc" required class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary focus:outline-none text-body-sm h-20" placeholder="Understand advanced optimization and backpropagation math."></textarea>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-body-sm font-semibold mb-1 text-on-surface">Price (₹)</label>
+                    <input type="number" id="course-form-price" required class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary focus:outline-none text-body-sm" placeholder="699">
+                </div>
+                <div>
+                    <label class="block text-body-sm font-semibold mb-1 text-on-surface">Category</label>
+                    <select id="course-form-cat" class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary focus:outline-none text-body-sm">
+                        <option value="Artificial Intelligence">Artificial Intelligence</option>
+                        <option value="Engineering">Engineering</option>
+                        <option value="UI/UX Design">UI/UX Design</option>
+                        <option value="Data Science">Data Science</option>
+                    </select>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-body-sm font-semibold mb-1 text-on-surface">Duration Label</label>
+                    <input type="text" id="course-form-duration" required class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary focus:outline-none text-body-sm" placeholder="15h 45m">
+                </div>
+                <div>
+                    <label class="block text-body-sm font-semibold mb-1 text-on-surface">Difficulty Level</label>
+                    <select id="course-form-level" class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary focus:outline-none text-body-sm">
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="advanced">Advanced</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="w-full py-3 bg-primary text-on-primary font-bold rounded-lg hover:bg-primary-container active:scale-95 transition-all shadow-md">Publish &amp; Go Live</button>
+        </form>
+    </div>
+</div>
+
+<!-- Manual Issue Certificate Modal -->
+<div id="issue-cert-modal" class="fixed inset-0 bg-on-background/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-margin-mobile">
+    <div class="bg-surface-card rounded-2xl max-w-md w-full p-stack-lg shadow-2xl scale-95 opacity-0 transition-all duration-300 transform" id="cert-modal-content">
+        <div class="flex justify-between items-center border-b border-border-subtle pb-4 mb-4">
+            <h3 class="font-headline-md text-headline-md text-primary font-bold">Issue Completion Certificate</h3>
+            <button class="material-symbols-outlined text-outline hover:text-on-surface" onclick="closeIssueCertModal()">close</button>
+        </div>
+        <form onsubmit="handleIssueCertificate(event)" class="space-y-4">
+            <div>
+                <label class="block text-body-sm font-semibold mb-1 text-on-surface">Student Email Address</label>
+                <input type="email" id="cert-form-email" required class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary focus:outline-none text-body-sm" placeholder="student@codivexa.com">
+            </div>
+            <div>
+                <label class="block text-body-sm font-semibold mb-1 text-on-surface">Select Course</label>
+                <select id="cert-form-course" class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary focus:outline-none text-body-sm">
+                    <!-- Loaded dynamically -->
+                </select>
+            </div>
+            <button type="submit" class="w-full py-3 bg-primary text-on-primary font-bold rounded-lg hover:bg-primary-container active:scale-95 transition-all shadow-md">Generate Certificate</button>
+        </form>
+    </div>
+</div>
+</main>
+<!-- Simple Footer for Admin Context -->
+<footer class="ml-72 border-t border-border-subtle p-margin-desktop">
+<div class="max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center text-on-surface-variant font-body-sm text-body-sm">
+<p>© 2024 Codivexa Learning Systems. All rights reserved.</p>
+<div class="flex gap-stack-lg mt-stack-md md:mt-0">
+<a class="hover:text-primary transition-colors" href="#">System Logs</a>
+<a class="hover:text-primary transition-colors" href="#">API Docs</a>
+<a class="hover:text-primary transition-colors" href="#">Support Ticket</a>
+</div>
+</div>
+</footer>
+<script>
+        // Check session
+        const adminUser = window.db.getLoggedInUser();
+        if (!adminUser || adminUser.role !== 'admin') {
+            window.location.href = '../codivexa_landing_page/code.html';
+        }
+
+        // Handle Logout
+        function handleLogout() {
+            window.db.logoutUser();
+            window.location.href = '../codivexa_landing_page/code.html';
+        }
+
+        // Switch Tab
+        function switchTab(tabName) {
+            const views = {
+                'overview': document.getElementById('view-overview'),
+                'courses': document.getElementById('view-courses'),
+                'students': document.getElementById('view-students'),
+                'certificates': document.getElementById('view-certificates'),
+                'financial': document.getElementById('view-financial')
+            };
+
+            const buttons = {
+                'overview': document.getElementById('tab-btn-overview'),
+                'courses': document.getElementById('tab-btn-courses'),
+                'students': document.getElementById('tab-btn-students'),
+                'certificates': document.getElementById('tab-btn-certificates'),
+                'financial': document.getElementById('tab-btn-financial')
+            };
+
+            const titles = {
+                'overview': ['Dashboard Overview', 'System performance monitor and platform statistics overview.'],
+                'courses': ['Course Library', 'Create, view, and delete online learning packages.'],
+                'students': ['Student Directory', 'Toggle blocking state to moderate candidate login credentials.'],
+                'certificates': ['Credentials Database', 'Review issued academic completion documents or manually issue/revoke them.'],
+                'financial': ['Payments Ledger', 'Track all platform invoice receipts generated during checkout.']
+            };
+
+            // Toggle view panels
+            Object.keys(views).forEach(key => {
+                if (key === tabName) {
+                    views[key].classList.remove('hidden');
+                } else {
+                    views[key].classList.add('hidden');
+                }
+            });
+
+            // Set Headers
+            document.getElementById('admin-view-title').textContent = titles[tabName][0];
+            document.getElementById('admin-view-subtitle').textContent = titles[tabName][1];
+
+            // Toggle buttons highlight
+            Object.keys(buttons).forEach(key => {
+                if (key === tabName) {
+                    buttons[key].className = "w-full text-left flex items-center gap-base bg-primary text-on-primary rounded-lg px-4 py-2 transition-all font-bold";
+                } else {
+                    buttons[key].className = "w-full text-left flex items-center gap-base text-on-surface-variant dark:text-outline-variant px-4 py-2 hover:bg-primary-container dark:hover:bg-primary-fixed-variant transition-all";
+                }
+            });
+
+            // Call render function
+            if (tabName === 'overview') renderOverview();
+            else if (tabName === 'courses') renderCourses();
+            else if (tabName === 'students') renderStudents();
+            else if (tabName === 'certificates') renderCertificates();
+            else if (tabName === 'financial') renderFinancial();
+        }
+
+        // Render Dashboard Overview
+        function renderOverview() {
+            // Stats
+            const txs = window.db.getTransactions();
+            let revenue = 0;
+            txs.forEach(t => revenue += t.amount);
+            document.getElementById('metric-revenue').textContent = "₹" + revenue.toLocaleString('en-IN') + ".00";
+
+            const users = window.db.getUsers();
+            let enrollCount = 0;
+            users.forEach(u => {
+                enrollCount += window.db.getUserEnrollments(u.id).length;
+            });
+            document.getElementById('metric-enrollments').textContent = enrollCount;
+
+            // Overview students list
+            const studentsTbody = document.getElementById('overview-students-tbody');
+            const studentUsers = users.filter(u => u.role === 'student').slice(0, 4);
+
+            studentsTbody.innerHTML = studentUsers.map(s => {
+                const statusClass = s.status === 'active' 
+                    ? 'bg-secondary-container text-on-secondary-container' 
+                    : 'bg-error-container text-on-error-container';
+                return `
+                    <tr class="hover:bg-surface-container-low transition-colors">
+                        <td class="px-6 py-4 flex items-center gap-base">
+                            <div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold text-xs">
+                                ${s.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                            </div>
+                            <span class="font-semibold">${s.name}</span>
+                        </td>
+                        <td class="px-6 py-4 text-on-surface-variant">${s.email}</td>
+                        <td class="px-6 py-4 text-xs font-mono text-outline">Student</td>
+                        <td class="px-6 py-4 text-right">
+                            <span class="${statusClass} px-2 py-1 rounded text-xs uppercase font-bold">${s.status}</span>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Render Courses Tab
+        function renderCourses() {
+            const tbody = document.getElementById('admin-courses-table-body');
+            const courses = window.db.getCourses();
+
+            tbody.innerHTML = courses.map(c => `
+                <tr class="hover:bg-surface-container-low transition-colors">
+                    <td class="px-6 py-4 font-semibold text-on-surface">${c.name}</td>
+                    <td class="px-6 py-4">${c.category}</td>
+                    <td class="px-6 py-4 font-bold">₹${c.price}</td>
+                    <td class="px-6 py-4">${c.duration}</td>
+                    <td class="px-6 py-4 text-xs capitalize">${c.level}</td>
+                    <td class="px-6 py-4 text-right">
+                        <button onclick="handleDeleteCourse('${c.id}')" class="text-error hover:underline font-bold">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function handleDeleteCourse(courseId) {
+            if (confirm("Are you sure you want to delete this course?")) {
+                const res = window.db.deleteCourse(courseId);
+                if (res.success) {
+                    renderCourses();
+                }
+            }
+        }
+
+        // Render Students Tab
+        function renderStudents() {
+            const tbody = document.getElementById('admin-students-table-body');
+            const users = window.db.getUsers().filter(u => u.role === 'student');
+
+            tbody.innerHTML = users.map(s => {
+                const statusClass = s.status === 'active' 
+                    ? 'bg-secondary-container text-on-secondary-container' 
+                    : 'bg-error-container text-on-error-container';
+                const actionLabel = s.status === 'active' ? 'Block' : 'Activate';
+                const actionClass = s.status === 'active' ? 'text-error' : 'text-success';
+
+                return `
+                    <tr class="hover:bg-surface-container-low transition-colors">
+                        <td class="px-6 py-4 font-semibold">${s.name}</td>
+                        <td class="px-6 py-4 text-on-surface-variant">${s.email}</td>
+                        <td class="px-6 py-4">${s.mobile}</td>
+                        <td class="px-6 py-4 uppercase text-xs font-mono">Student</td>
+                        <td class="px-6 py-4">
+                            <span class="${statusClass} px-2.5 py-1 rounded text-xs font-bold">${s.status}</span>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <button onclick="toggleStudentBlock('${s.id}')" class="${actionClass} hover:underline font-bold mr-2">${actionLabel}</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function toggleStudentBlock(studentId) {
+            window.db.toggleUserBlock(studentId);
+            renderStudents();
+        }
+
+        // Render Certificates Tab
+        function renderCertificates() {
+            const tbody = document.getElementById('admin-certs-table-body');
+            const certs = window.db.getCertificates();
+
+            tbody.innerHTML = certs.map(c => {
+                const userObj = window.db.getUsers().find(u => u.id === c.userId);
+                const courseObj = window.db.getCourses().find(co => co.id === c.courseId);
+                const userName = userObj ? userObj.name : 'Unknown';
+                const courseName = courseObj ? courseObj.name : 'Unknown';
+                
+                const isIssued = c.status === 'issued';
+                const statusClass = isIssued 
+                    ? 'bg-secondary-container text-on-secondary-container' 
+                    : 'bg-outline/20 text-outline';
+                const actionLabel = isIssued ? 'Revoke' : 'Reinstate';
+                const actionFn = isIssued ? `revokeCert('${c.id}')` : `reinstateCert('${c.id}')`;
+
+                return `
+                    <tr class="hover:bg-surface-container-low transition-colors">
+                        <td class="px-6 py-4 font-mono text-xs font-semibold">${c.id}</td>
+                        <td class="px-6 py-4">${userName}</td>
+                        <td class="px-6 py-4">${courseName}</td>
+                        <td class="px-6 py-4 text-on-surface-variant">${new Date(c.issueDate).toLocaleDateString()}</td>
+                        <td class="px-6 py-4">
+                            <span class="${statusClass} px-2 py-1 rounded text-xs font-bold uppercase">${c.status}</span>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <button onclick="${actionFn}" class="text-primary hover:underline font-bold">${actionLabel}</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function revokeCert(certId) {
+            if (confirm("Are you sure you want to revoke this certificate?")) {
+                window.db.revokeCertificate(certId);
+                renderCertificates();
+            }
+        }
+
+        function reinstateCert(certId) {
+            if (confirm("Are you sure you want to reinstate this certificate?")) {
+                window.db.reinstateCertificate(certId);
+                renderCertificates();
+            }
+        }
+
+        // Render Transactions Log Tab
+        function renderFinancial() {
+            const tbody = document.getElementById('admin-transactions-table-body');
+            const txs = window.db.getTransactions();
+
+            tbody.innerHTML = txs.map(t => {
+                const userObj = window.db.getUsers().find(u => u.id === t.userId);
+                const courseObj = window.db.getCourses().find(co => co.id === t.courseId);
+                const userEmail = userObj ? userObj.email : 'Unknown';
+                const courseName = courseObj ? courseObj.name : 'Unknown';
+
+                return `
+                    <tr class="hover:bg-surface-container-low transition-colors">
+                        <td class="px-6 py-4 font-mono text-xs font-semibold">${t.id}</td>
+                        <td class="px-6 py-4 font-semibold">${userEmail}</td>
+                        <td class="px-6 py-4">${courseName}</td>
+                        <td class="px-6 py-4 text-xs">${t.method}</td>
+                        <td class="px-6 py-4 text-on-surface-variant text-xs">${new Date(t.date).toLocaleString()}</td>
+                        <td class="px-6 py-4 text-right font-extrabold text-primary">₹${t.amount}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // CREATE COURSE MODAL
+        function openCreateCourseModal() {
+            const modal = document.getElementById('create-course-modal');
+            const content = document.getElementById('course-modal-content');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeCreateCourseModal() {
+            const modal = document.getElementById('create-course-modal');
+            const content = document.getElementById('course-modal-content');
+            content.classList.add('scale-95', 'opacity-0');
+            content.classList.remove('scale-100', 'opacity-100');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        function handleCreateCourse(e) {
+            e.preventDefault();
+            const name = document.getElementById('course-form-name').value;
+            const desc = document.getElementById('course-form-desc').value;
+            const price = parseInt(document.getElementById('course-form-price').value) || 0;
+            const category = document.getElementById('course-form-cat').value;
+            const duration = document.getElementById('course-form-duration').value;
+            const level = document.getElementById('course-form-level').value;
+
+            // Generate mock placeholder image matching search
+            const image = 'https://lh3.googleusercontent.com/aida-public/AB6AXuAPiVnDxOucAmOZI9CK_aiwMqDm4XHGDGxQF01QiMY8USJghCgf5Lf2c-McoJgiW6z2qoLHmUkjW9FL8D_0mFUQlqeyk1qYRBenV0qaN0Y2Mpd2mTZ27_jXrJ-8wUjy_tzKHmqBrQ0nNkJ3AH_TVDzlE_7nxXJn1MSPriWBY1C0hilgpQEDgoDBSpiXmKToQObfSllVi0j4fx__5FgrCb8PsEt90BH7tiNhFrBZ1e4b5oCvj9XHnZgV6rw5JKT7XCC_C3sPOinXE_s';
+
+            window.db.createCourse(name, desc, category, price, duration, level, image);
+            closeCreateCourseModal();
+            renderCourses();
+        }
+
+        // MANUAL CERTIFICATE ISSUE MODAL
+        function openIssueCertModal() {
+            const modal = document.getElementById('issue-cert-modal');
+            const content = document.getElementById('cert-modal-content');
+            
+            // Populate select dropdown
+            const select = document.getElementById('cert-form-course');
+            select.innerHTML = window.db.getCourses().map(c => `
+                <option value="${c.id}">${c.name}</option>
+            `).join('');
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeIssueCertModal() {
+            const modal = document.getElementById('issue-cert-modal');
+            const content = document.getElementById('cert-modal-content');
+            content.classList.add('scale-95', 'opacity-0');
+            content.classList.remove('scale-100', 'opacity-100');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        function handleIssueCertificate(e) {
+            e.preventDefault();
+            const email = document.getElementById('cert-form-email').value;
+            const courseId = document.getElementById('cert-form-course').value;
+
+            const student = window.db.getUsers().find(u => u.email === email && u.role === 'student');
+            if (!student) {
+                alert("Student email not registered on Codivexa platform!");
+                return;
+            }
+
+            window.db.issueCertificate(student.id, courseId);
+            closeIssueCertModal();
+            renderCertificates();
+            alert(`Certificate successfully generated and issued to ${student.name}!`);
+        }
+
+        // Initialize view
+        window.addEventListener('DOMContentLoaded', () => {
+            // Update profile text
+            document.querySelector('aside p.font-label-md').textContent = adminUser.name;
+            
+            renderOverview();
+            switchTab('overview');
+        });
+    </script>
+</body></html>

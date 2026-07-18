@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Codivexa | Learning Management System</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="../db.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#e5deff",
+                        "surface-card": "#FFFFFF",
+                        "on-tertiary-fixed-variant": "#4633a0",
+                        "inverse-on-surface": "#edf0ff",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#432f9c",
+                        "surface-bright": "#faf9ff",
+                        "surface-container": "#e9edff",
+                        "tertiary-fixed-dim": "#c9bfff",
+                        "error": "#FF5630",
+                        "secondary": "#006c47",
+                        "on-secondary-container": "#00714b",
+                        "outline-variant": "#c3c6d6",
+                        "on-surface-variant": "#434654",
+                        "inverse-surface": "#1d3054",
+                        "secondary-container": "#8af5be",
+                        "secondary-fixed": "#8df7c1",
+                        "on-background": "#051a3e",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#d8e2ff",
+                        "error-container": "#ffdad6",
+                        "warning": "#FFAB00",
+                        "on-primary-fixed": "#001848",
+                        "inverse-primary": "#b2c5ff",
+                        "primary-fixed-dim": "#b2c5ff",
+                        "outline": "#737685",
+                        "surface-dim": "#ccdaff",
+                        "primary": "#003d9b",
+                        "on-tertiary-container": "#d5ccff",
+                        "info": "#00B8D9",
+                        "surface-container-high": "#e1e8ff",
+                        "surface-variant": "#d8e2ff",
+                        "on-primary-container": "#c4d2ff",
+                        "on-secondary-fixed": "#002113",
+                        "success": "#36B37E",
+                        "on-secondary-fixed-variant": "#005235",
+                        "surface-bg": "#F4F5F7",
+                        "border-subtle": "#DFE1E6",
+                        "on-surface": "#051a3e",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface-tint": "#0c56d0",
+                        "primary-container": "#0052cc",
+                        "on-error": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed-variant": "#0040a2",
+                        "surface-container-low": "#f1f3ff",
+                        "tertiary-container": "#5b49b5",
+                        "primary-fixed": "#dae2ff",
+                        "background": "#faf9ff",
+                        "on-tertiary-fixed": "#1a0063",
+                        "secondary-fixed-dim": "#71dba6",
+                        "surface": "#faf9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "12px",
+                        "base": "8px",
+                        "margin-desktop": "32px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "stack-sm": "4px",
+                        "container-max": "1280px",
+                        "stack-lg": "24px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #F4F5F7; }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .course-card-shadow { box-shadow: 0 2px 4px rgba(0,0,0,0.04); }
+        .course-card-shadow:hover { box-shadow: 0 4px 12px rgba(0, 82, 204, 0.08); transition: box-shadow 0.2s ease-in-out; }
+    </style>
+</head>
+<body class="bg-surface-bg text-on-surface">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-surface-container-lowest/95 backdrop-blur-md border-b border-border-subtle shadow-sm">
+<nav class="flex justify-between items-center w-full px-margin-desktop py-base max-w-container-max mx-auto h-20">
+<div class="flex items-center gap-base cursor-pointer" onclick="window.location.reload()">
+<span class="font-headline-md text-headline-md font-bold text-primary">Codivexa</span>
+</div>
+<div class="hidden md:flex items-center gap-gutter">
+<a class="text-on-surface-variant font-body-md text-body-md hover:text-primary transition-colors duration-200" href="../course_catalog/code.html">Browse Courses</a>
+<div class="flex items-center gap-stack-md" id="nav-actions">
+<button onclick="openAuthModal('login')" class="px-6 py-2 rounded-lg font-label-md text-label-md text-primary border border-primary hover:bg-surface-container-low transition-colors duration-200 scale-95 active:scale-90">Login</button>
+<button onclick="openAuthModal('register')" class="px-6 py-2 rounded-lg font-label-md text-label-md bg-primary-container text-white hover:opacity-90 transition-all scale-95 active:scale-90">Register</button>
+</div>
+</div>
+</nav>
+</header>
+<!-- Hero Section -->
+<section class="relative h-screen flex items-center justify-center overflow-hidden pt-20">
+<!-- STITCH_SHADER_START:ANIMATION_3 class="absolute inset-0 w-full h-full z-0 opacity-40" -->
+<div class="absolute inset-0 w-full h-full z-0 opacity-40" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_3" style="display:block;width:100%;height:100%"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_3');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+varying vec2 v_texCoord;
+uniform float u_time;
+uniform vec2 u_resolution;
+
+void main() {
+    vec2 uv = v_texCoord;
+    float color = 0.0;
+    
+    // Abstract flowing blue waves
+    color += sin(uv.x * 10.0 + u_time) * 0.1;
+    color += sin(uv.y * 8.0 + u_time * 0.5) * 0.1;
+    
+    vec3 baseColor = vec3(0.0, 0.32, 0.8); // Codivexa Blue
+    vec3 mixColor = vec3(0.0, 0.1, 0.4);
+    
+    vec3 finalColor = mix(baseColor, mixColor, uv.y + color);
+    gl_FragColor = vec4(finalColor * (1.0 - length(uv - 0.5) * 0.5), 1.0);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_3 -->
+<div class="relative z-10 text-center px-margin-mobile md:px-margin-desktop max-w-4xl" id="hero-content">
+<h1 class="font-display-lg text-display-lg text-on-background mb-stack-lg leading-tight tracking-tight">
+                Register Now and Start Your Learning Journey with Codivexa.
+            </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-2xl mx-auto">
+                Elevate your career with industry-leading courses designed by experts. Join thousands of learners mastering new skills today.
+            </p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-stack-lg">
+<button id="hero-register-btn" onclick="handleHeroRegisterClick()" class="w-full sm:w-auto bg-primary-container text-white px-10 py-4 rounded-lg font-title-lg text-title-lg shadow-md hover:shadow-lg transition-all scale-100 active:scale-95">
+                    Register Now
+                </button>
+<button onclick="window.location.href='../course_catalog/code.html'" class="w-full sm:w-auto border-2 border-primary text-primary px-10 py-4 rounded-lg font-title-lg text-title-lg bg-white/50 backdrop-blur-sm hover:bg-primary-fixed transition-all scale-100 active:scale-95">
+                    Browse Courses
+                </button>
+</div>
+</div>
+</section>
+<!-- Featured Courses -->
+<section class="py-24 bg-white reveal">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="flex justify-between items-end mb-16">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-background mb-stack-sm">Featured Courses</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Handpicked expertise to accelerate your professional growth.</p>
+</div>
+<a class="hidden md:flex items-center gap-2 text-primary font-label-md text-label-md group" href="../course_catalog/code.html">
+                    View All Courses <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Course Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden border border-border-subtle course-card-shadow group">
+<div class="h-48 bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A close-up shot of a high-end laptop display showing complex code editor with vibrant syntax highlighting in a soft blue-themed developer workspace. The lighting is diffused and professional, creating a clean tech aesthetic that fits the modern LMS theme. Shallow depth of field blurs the minimalist white desk and a small green succulent plant in the background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrc1VwICG6eAju2TAmKNwB9Pwe0t2RtIoX6Z2O-rsJAmkyRhvPncoBajOEFlctmhBeye1z3nZv7lEJxcqWUzgsetFdXXrv1Ai-zRfrqxPwDZsP7dzmrXlc-O8YuQl1yHrjeG3tejoIOG6wKpnm0faPxlO3qoDOEUPEz4s9QVFyvmaIIP2U2uStMpkVTKH3LmQodHiAbE-MW-J-SEbf6VliInPhJ14htFvS1Xz0o2aIgXoNshPUtXBvY0RlSmjfKBeNgh5oVtlBeqs"/>
+</div>
+<div class="p-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="bg-secondary-container text-on-secondary-container text-[10px] uppercase font-bold px-2 py-1 rounded">Development</span>
+<span class="flex items-center text-warning text-xs font-bold">
+<span class="material-symbols-outlined text-xs mr-1" style="font-variation-settings: 'FILL' 1;">star</span> 4.9
+                            </span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2 leading-tight">Advanced Systems Architecture</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6 line-clamp-2">Master the art of building scalable, fault-tolerant enterprise applications from scratch.</p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full border border-border-subtle" data-alt="A professional headshot of a middle-aged female professor with a kind smile, wearing academic attire, set against a clean, softly lit office background with bookshelves. The lighting is warm and authoritative, reinforcing trust and expertise in an educational context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6vpQdNJpiZ_NRbs-a9azCA9Q7gC12GiSkqEODGAd3Ea3BCev0OE6rluEK5Jx25LQ8N52SQwAlLwRCXFrGOxlNg8yMm-yyHsQJtZNpEllSo2QAm6vg4leeiaWToX_B3DRVPQgdeHUBKY0bK0nWKzYLCX8lyn9kn1-7dQTrdPIZVKWwXL64obJP-i1lP2GflmOeYAw430GG9z2tUMWmnoUZf4lU172YmdDN5tvxWt6YzJols1HfKV3Z1Q8XWUdtR7pwFZ9mtSgYxsw"/>
+<span class="font-label-md text-label-md text-on-surface-variant">Dr. Sarah Chen</span>
+</div>
+<span class="font-title-lg text-title-lg text-primary">$89.99</span>
+</div>
+</div>
+</div>
+<!-- Course Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden border border-border-subtle course-card-shadow group">
+<div class="h-48 bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A professional clean top-down view of a designer's desk featuring a tablet showing a minimalist mobile UI layout, a stylus, and a notebook with wireframe sketches. The color palette is composed of soft grays and primary blue accents, reflecting a functional and modern design studio atmosphere. Natural morning light streams across the surface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBf_UajBAc-ZNw2i9UU9Fp-Q-xom-o7oWjs0rd1bFo-rQFmhxlsc9XjLuC0mPofvQC4txeM6K254JXoN7qLnmoZ1crRac9wELAVelrY5Iagd-bno649aqmc98beyeZgGjKu9I9A-QAkjeGK3TzEp641bpNVL0Dma-vgEU80yeyrcR8AAZG4WIzXasVDLLkkpJewqRjJq9_i28tWqDA80p5nc7pBJsDRQHEV-zrvwjF2uVenAUPfQc3oGxGMkXP6blnas7WjDk-ZRng"/>
+</div>
+<div class="p-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant text-[10px] uppercase font-bold px-2 py-1 rounded">Design</span>
+<span class="flex items-center text-warning text-xs font-bold">
+<span class="material-symbols-outlined text-xs mr-1" style="font-variation-settings: 'FILL' 1;">star</span> 4.8
+                            </span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2 leading-tight">UI/UX Strategic Design</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6 line-clamp-2">Learn user-centric design principles to create interfaces that convert and delight.</p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full border border-border-subtle" data-alt="Close up portrait of a young male designer with glasses and a thoughtful expression, wearing a stylish dark turtleneck. The lighting is dramatic but professional, emphasizing a modern creative persona in a high-tech studio setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtg1R1KAg3HXwGk5983uXD0KKX0uA1jNnG3neDQ8jWuysDT5xUZ-sd-sf_kdZEPZj6zdLfBcKn8v1iGJ_3TegVD6BiBGmaZ5-YUGN268V9djtP8TlfBklkCfwdoaIxoFyiCQMovsr3VKz4C8VtnI13f2eURdLxW1mXYyDO2qqCmOewpCZ0vi6IsOev08AW-Cw7BcKv0lLSw9x5oBKSHDtUzb2fJWjXbNEq8N2LT_MIJ09xjxHeemC7tpsbc1snwrqVvJkFBeRn9AI"/>
+<span class="font-label-md text-label-md text-on-surface-variant">Marcus Thorne</span>
+</div>
+<span class="font-title-lg text-title-lg text-primary">$64.50</span>
+</div>
+</div>
+</div>
+<!-- Course Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden border border-border-subtle course-card-shadow group">
+<div class="h-48 bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A futuristic data center visualization featuring rows of server racks glowing with soft blue and green LEDs. The perspective is from a low angle, emphasizing the scale and technological power. The overall mood is cold, crisp, and high-performance, suggesting data security and administrative excellence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPpZQd0kryptu6KaV40kZA6jucljSDics_RY49orS3wHR66VQxxUkQ13xWpfALtw1l2RDjc3B7dafoR7EewEvUVz9G85Gp0CLWrr_o2hLc4C_DwFxtxsbN8OTHjVDQkcE3qHygZGu9rJquFpsk0sNr3WiCe1fhy8TDQ8tYMo_dIxcdjCiP24i2bM4xbXp0NWoVRGj6lwGWRne4maiBaOvLiD0tlYwpqLL9WqGlTl3hXdsMi6gLC_AiAWOJId_ZJK5O5H2yrzS1VsI"/>
+</div>
+<div class="p-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="bg-primary-fixed text-on-primary-fixed-variant text-[10px] uppercase font-bold px-2 py-1 rounded">Business</span>
+<span class="flex items-center text-warning text-xs font-bold">
+<span class="material-symbols-outlined text-xs mr-1" style="font-variation-settings: 'FILL' 1;">star</span> 5.0
+                            </span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2 leading-tight">Data-Driven Management</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6 line-clamp-2">Transform raw data into actionable business intelligence using modern analytical tools.</p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full border border-border-subtle" data-alt="A professional portrait of a senior business consultant in a sharp suit, standing in a brightly lit glass-walled office with a cityscape in the blurred background. The image exudes confidence, leadership, and professional success in a corporate environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBX46qp8TIkLdZ_BiWlBhQZQYwfZL_HTiTR5KQm_ra-92NJ1CIyGYBOzPKrKo_iqBNpscdGD8nNOtX3ENvhutxg75o0_OnwEG4NI1bZWVRz4W432-VljvquH7vNl0Rwns3Yb8raF_UXSm0aE6VY1gS4sfHamnMCgkjiLXxKeZZTTTK3-DifjSOt6S_0RX5swLyaiOVtKFefIygTjIPmssE3rlqcl5-7aXLtn7N6WY4zKc17_B5JF08D2boeT1qf8qG4tPGe0kMtY9U"/>
+<span class="font-label-md text-label-md text-on-surface-variant">Elena Rodriguez</span>
+</div>
+<span class="font-title-lg text-title-lg text-primary">$120.00</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Why Choose Us -->
+<section class="py-24 bg-surface-bg reveal">
+<div class="max-w-container-max mx-auto px-margin-desktop text-center">
+<h2 class="font-headline-lg text-headline-lg text-on-background mb-16">Why Learn with Codivexa?</h2>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<div class="p-base">
+<div class="w-16 h-16 bg-primary-container/10 text-primary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<span class="material-symbols-outlined text-3xl">school</span>
+</div>
+<h4 class="font-title-lg text-title-lg text-on-surface mb-2">Expert Instructors</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Learn from industry veterans who bring real-world experience to the classroom.</p>
+</div>
+<div class="p-base">
+<div class="w-16 h-16 bg-secondary-container/20 text-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<span class="material-symbols-outlined text-3xl">query_stats</span>
+</div>
+<h4 class="font-title-lg text-title-lg text-on-surface mb-2">Progress Analytics</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Track your learning curve with detailed insights and personalized feedback.</p>
+</div>
+<div class="p-base">
+<div class="w-16 h-16 bg-tertiary-fixed text-tertiary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<span class="material-symbols-outlined text-3xl">card_membership</span>
+</div>
+<h4 class="font-title-lg text-title-lg text-on-surface mb-2">Certified Credibility</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Earn industry-recognized certificates to boost your professional profile.</p>
+</div>
+<div class="p-base">
+<div class="w-16 h-16 bg-surface-container-highest text-primary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<span class="material-symbols-outlined text-3xl">group</span>
+</div>
+<h4 class="font-title-lg text-title-lg text-on-surface mb-2">Community Driven</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Connect with a global network of peers for collaboration and support.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonials -->
+<section class="py-24 bg-on-background text-white reveal">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="text-center mb-20">
+<h2 class="font-headline-lg text-headline-lg mb-4">Success Stories</h2>
+<p class="font-body-md text-body-md opacity-70">Hear from our students who transformed their careers through Codivexa.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter items-center">
+<div class="space-y-gutter">
+<div class="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 hover:bg-white/10 transition-all">
+<div class="flex items-center gap-1 text-warning mb-4">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-body-lg text-body-lg italic mb-6">"Codivexa didn't just teach me how to code; it taught me how to solve problems. The project-based approach was exactly what I needed to land my first role at a Fortune 500 company."</p>
+<div class="flex items-center gap-4">
+<img class="w-12 h-12 rounded-full object-cover border-2 border-primary" data-alt="Headshot of a happy young professional woman in her late 20s with a modern hairstyle, wearing a stylish blazer, looking confidently at the camera. The background is a blurred modern office lounge with warm lighting and plants, creating an aspirational and professional atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBttON5hbUnZVsAIpqq6Qzknsukf8Zw6NQgA43KRfCeT_5DDoXaKasEuXie9wWnpWgob1um2xCgbQTQnQIW25IqviKDlM1b2l2T_T94KWrDm4LHDnjk03JB-jVaRg-J4XmA0O2CXedwARhzLsQ6UG4nXkdcN-YINmkHWALhSe2h0kRAVmujvAZySKmf_eRp96JzbquU-z-hDp1osqAzjiwuaKdbQJnty0a-cg6UlGT9nGX8857Kjj7BhXkSnnDFQdTp0J3z6wH9wDM"/>
+<div>
+<h5 class="font-label-md text-label-md">Jessica Lang</h5>
+<p class="text-xs opacity-60">Software Engineer, TechCorp</p>
+</div>
+</div>
+</div>
+<div class="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 hover:bg-white/10 transition-all translate-x-4">
+<div class="flex items-center gap-1 text-warning mb-4">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-body-lg text-body-lg italic mb-6">"The flexibility of learning at my own pace allowed me to balance my certification with a full-time job. The content is world-class and always up-to-date with current trends."</p>
+<div class="flex items-center gap-4">
+<img class="w-12 h-12 rounded-full object-cover border-2 border-primary" data-alt="Portrait of a smiling professional man in his early 30s, casual yet business-ready attire, standing in a bright minimalist room. The lighting is soft and flattering, highlighting his friendly and approachable personality. The visual style is high-quality and premium." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBa58kZgnMJVHiGnYK2EiNohJpIgPD6N_-uvPR9LqqUfHHexSq4YE0BlnzMM6IP4flMTpHObBQUnkeuZFHiXW2X3D9au067eadwc-85fIYDAyHMcAmTzHUxhmu3J-zjKhkkhgxThum3IkugHEF3-1fTuAr-f_NkbDhMf9WPwl_6Eo5QcAF30PPjalvMtyK_IDagIbX0iCJXYpqqXNTm9xPL5t9yQYkrsTFDMW0IfVO7riHnYPPgGBt61Cgg7LhA9A4mJgL_G6rJTtY"/>
+<div>
+<h5 class="font-label-md text-label-md">David Chen</h5>
+<p class="text-xs opacity-60">Product Designer, GlobalInno</p>
+</div>
+</div>
+</div>
+</div>
+<div class="hidden md:block relative h-full min-h-[500px]">
+<div class="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl">
+<img class="w-full h-full object-cover" data-alt="A wide-angle, high-quality photograph of a diverse group of modern professionals collaborating in a bright, futuristic learning space with interactive screens and ergonomic furniture. The lighting is airy and positive, with a clean color palette of white, primary blue, and soft wood tones. The composition is dynamic, showing active engagement and success." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCULFMYtQWaBR7eb9Nuiqr-yhINpSBEAMnsDIKoKRuxHHAsFozRtRe6-v_OVjBrrF93mSG1fN3GuF5fyB2jVPmtpJ6kWvcmywoakduZdsz-IJJkT60NOsu5FzvMmdPoJYZiTNIQ1d4kXx3Xl7QmQZX7-kIVQLa1ZFaDeTYDs1Xdcg94blvgtROOVDpHyHQaTrgaQohe9Gv47NaakwXGqxsM4Mc7W99XQL6mDqyALaq2FK0SP0U43Mw0DRAvg-hjJPEg8WqwEQPciUE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-background via-transparent to-transparent opacity-60"></div>
+<div class="absolute bottom-8 left-8 right-8">
+<div class="bg-primary/20 backdrop-blur-lg p-6 rounded-xl border border-white/10">
+<span class="font-display-lg text-display-lg font-bold block">15k+</span>
+<span class="font-body-md text-body-md opacity-90">Happy Students Graduated</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-on-background border-t border-outline text-surface-card">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-desktop py-stack-lg max-w-container-max mx-auto">
+<div class="flex flex-col gap-base">
+<span class="font-headline-md text-headline-md font-bold text-surface-card">Codivexa</span>
+<p class="font-body-sm text-body-sm opacity-60 mt-4">
+                    The next-generation learning management system empowering the future workforce through high-impact education.
+                </p>
+</div>
+<div>
+<h4 class="font-title-lg text-title-lg mb-6">Explore</h4>
+<ul class="flex flex-col gap-3 font-body-sm text-body-sm opacity-70">
+<li class="hover:text-secondary-fixed transition-colors cursor-pointer">Browse Courses</li>
+<li class="hover:text-secondary-fixed transition-colors cursor-pointer">Learning Paths</li>
+<li class="hover:text-secondary-fixed transition-colors cursor-pointer">Certification</li>
+<li class="hover:text-secondary-fixed transition-colors cursor-pointer">Enterprise Solutions</li>
+</ul>
+</div>
+<div>
+<h4 class="font-title-lg text-title-lg mb-6">Company</h4>
+<ul class="flex flex-col gap-3 font-body-sm text-body-sm opacity-70">
+<li class="hover:text-secondary-fixed transition-colors cursor-pointer">About Us</li>
+<li class="hover:text-secondary-fixed transition-colors cursor-pointer">Contact Support</li>
+<li class="hover:text-secondary-fixed transition-colors cursor-pointer">Privacy Policy</li>
+<li class="hover:text-secondary-fixed transition-colors cursor-pointer">Terms of Service</li>
+</ul>
+</div>
+<div>
+<h4 class="font-title-lg text-title-lg mb-6">Stay Connected</h4>
+<p class="font-body-sm text-body-sm opacity-60 mb-4">Join our newsletter for the latest course releases and learning tips.</p>
+<div class="flex gap-2">
+<input class="bg-white/10 border-white/20 rounded-lg px-4 py-2 w-full text-white placeholder:text-white/40 focus:ring-2 focus:ring-primary" placeholder="Email address" type="email"/>
+<button class="bg-primary px-4 py-2 rounded-lg material-symbols-outlined">send</button>
+</div>
+</div>
+</div>
+<div class="border-t border-white/10 py-6 text-center">
+<p class="font-body-sm text-body-sm opacity-40">© 2024 Codivexa Learning Systems. All rights reserved.</p>
+</div>
+</footer>
+
+<!-- Auth Modals -->
+<div id="auth-modal" class="fixed inset-0 bg-on-background/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-margin-mobile">
+    <div class="bg-surface-card rounded-2xl max-w-md w-full p-stack-lg shadow-2xl scale-95 opacity-0 transition-all duration-300 transform" id="auth-modal-content">
+        <!-- Close button -->
+        <div class="flex justify-end mb-2">
+            <button class="material-symbols-outlined text-outline hover:text-on-surface" onclick="closeAuthModal()">close</button>
+        </div>
+        
+        <!-- Login Form -->
+        <div id="login-form-container">
+            <h3 class="font-headline-md text-headline-md mb-2 text-center text-primary">Login to Codivexa</h3>
+            <p class="font-body-sm text-body-sm text-on-surface-variant text-center mb-6">Enter your credentials to continue your learning journey.</p>
+            <form id="login-form" onsubmit="handleLoginSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-body-sm font-semibold mb-1 text-on-surface">Email Address</label>
+                    <input type="email" id="login-email" required class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary focus:outline-none" placeholder="you@example.com">
+                </div>
+                <div>
+                    <label class="block text-body-sm font-semibold mb-1 text-on-surface">Password</label>
+                    <input type="password" id="login-password" required class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary focus:outline-none" placeholder="••••••••">
+                </div>
+                <div class="text-right">
+                    <a href="#" onclick="alert('Password reset link sent to your email (simulated).')" class="text-xs text-primary hover:underline">Forgot Password?</a>
+                </div>
+                <div class="text-error text-xs hidden" id="login-error-msg"></div>
+                <button type="submit" class="w-full py-3 bg-primary text-on-primary font-bold rounded-lg hover:bg-primary-container transition-all active:scale-95">Login</button>
+            </form>
+            <p class="text-xs text-center text-on-surface-variant mt-4">
+                Don't have an account? <a href="#" onclick="switchAuthTab('register')" class="text-primary font-bold hover:underline">Register Now</a>
+            </p>
+        </div>
+
+        <!-- Register Form -->
+        <div id="register-form-container" class="hidden">
+            <h3 class="font-headline-md text-headline-md mb-2 text-center text-primary">Create Your Account</h3>
+            <p class="font-body-sm text-body-sm text-on-surface-variant text-center mb-6">Join Codivexa and unlock your learning potential.</p>
+            <form id="register-form" onsubmit="handleRegisterSubmit(event)" class="space-y-3">
+                <div>
+                    <label class="block text-body-sm font-semibold mb-1 text-on-surface">Full Name</label>
+                    <input type="text" id="reg-name" required class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary focus:outline-none" placeholder="John Doe">
+                </div>
+                <div>
+                    <label class="block text-body-sm font-semibold mb-1 text-on-surface">Email Address</label>
+                    <input type="email" id="reg-email" required class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary focus:outline-none" placeholder="john@example.com">
+                </div>
+                <div>
+                    <label class="block text-body-sm font-semibold mb-1 text-on-surface">Mobile Number</label>
+                    <input type="tel" id="reg-mobile" required class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary focus:outline-none" placeholder="+91 99999 99999">
+                </div>
+                <div>
+                    <label class="block text-body-sm font-semibold mb-1 text-on-surface">Password</label>
+                    <input type="password" id="reg-password" required class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary focus:outline-none" placeholder="••••••••">
+                </div>
+                <div>
+                    <label class="block text-body-sm font-semibold mb-1 text-on-surface">Confirm Password</label>
+                    <input type="password" id="reg-confirm-password" required class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary focus:outline-none" placeholder="••••••••">
+                </div>
+                <div class="text-error text-xs hidden" id="reg-error-msg"></div>
+                <button type="submit" class="w-full py-3 bg-primary text-on-primary font-bold rounded-lg hover:bg-primary-container transition-all active:scale-95">Register</button>
+            </form>
+            <p class="text-xs text-center text-on-surface-variant mt-4">
+                Already have an account? <a href="#" onclick="switchAuthTab('login')" class="text-primary font-bold hover:underline">Login</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+        // Auth Modals logic
+        function openAuthModal(tab) {
+            const modal = document.getElementById('auth-modal');
+            const content = document.getElementById('auth-modal-content');
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            switchAuthTab(tab || 'login');
+            
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeAuthModal() {
+            const modal = document.getElementById('auth-modal');
+            const content = document.getElementById('auth-modal-content');
+            
+            content.classList.add('scale-95', 'opacity-0');
+            content.classList.remove('scale-100', 'opacity-100');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        function switchAuthTab(tab) {
+            const loginContainer = document.getElementById('login-form-container');
+            const registerContainer = document.getElementById('register-form-container');
+            
+            document.getElementById('login-error-msg').classList.add('hidden');
+            document.getElementById('reg-error-msg').classList.add('hidden');
+            
+            if (tab === 'login') {
+                loginContainer.classList.remove('hidden');
+                registerContainer.classList.add('hidden');
+            } else {
+                loginContainer.classList.add('hidden');
+                registerContainer.classList.remove('hidden');
+            }
+        }
+
+        function handleLoginSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const pass = document.getElementById('login-password').value;
+            const errorMsg = document.getElementById('login-error-msg');
+            
+            const res = window.db.loginUser(email, pass);
+            if (res.success) {
+                closeAuthModal();
+                updateNav();
+                redirectToDashboard(res.user);
+            } else {
+                errorMsg.textContent = res.message;
+                errorMsg.classList.remove('hidden');
+            }
+        }
+
+        function handleRegisterSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const mobile = document.getElementById('reg-mobile').value;
+            const pass = document.getElementById('reg-password').value;
+            const confirmPass = document.getElementById('reg-confirm-password').value;
+            const errorMsg = document.getElementById('reg-error-msg');
+            
+            if (pass !== confirmPass) {
+                errorMsg.textContent = "Passwords do not match!";
+                errorMsg.classList.remove('hidden');
+                return;
+            }
+            
+            const res = window.db.registerUser(name, email, mobile, pass);
+            if (res.success) {
+                closeAuthModal();
+                updateNav();
+                redirectToDashboard(res.user);
+            } else {
+                errorMsg.textContent = res.message;
+                errorMsg.classList.remove('hidden');
+            }
+        }
+
+        function redirectToDashboard(user) {
+            if (user.role === 'admin') {
+                window.location.href = '../admin_panel/code.html';
+            } else {
+                window.location.href = '../student_dashboard/code.html';
+            }
+        }
+
+        function handleLogout() {
+            window.db.logoutUser();
+            updateNav();
+        }
+
+        function handleHeroRegisterClick() {
+            const user = window.db.getLoggedInUser();
+            if (user) {
+                redirectToDashboard(user);
+            } else {
+                openAuthModal('register');
+            }
+        }
+
+        function updateNav() {
+            const user = window.db.getLoggedInUser();
+            const navActions = document.getElementById('nav-actions');
+            const heroRegBtn = document.getElementById('hero-register-btn');
+            
+            if (user) {
+                const isAdmin = user.role === 'admin';
+                const dest = isAdmin ? '../admin_panel/code.html' : '../student_dashboard/code.html';
+                
+                navActions.innerHTML = `
+                    <button onclick="window.location.href='${dest}'" class="px-6 py-2 rounded-lg font-label-md text-label-md bg-primary text-white hover:opacity-90 transition-all scale-95 active:scale-90">${isAdmin ? 'Admin Panel' : 'Dashboard'}</button>
+                    <button onclick="handleLogout()" class="px-6 py-2 rounded-lg font-label-md text-label-md text-primary border border-primary hover:bg-surface-container-low transition-colors duration-200 scale-95 active:scale-90">Logout</button>
+                `;
+                
+                if (heroRegBtn) {
+                    heroRegBtn.textContent = isAdmin ? 'Go to Admin Panel' : 'Go to Dashboard';
+                }
+            } else {
+                navActions.innerHTML = `
+                    <button onclick="openAuthModal('login')" class="px-6 py-2 rounded-lg font-label-md text-label-md text-primary border border-primary hover:bg-surface-container-low transition-colors duration-200 scale-95 active:scale-90">Login</button>
+                    <button onclick="openAuthModal('register')" class="px-6 py-2 rounded-lg font-label-md text-label-md bg-primary-container text-white hover:opacity-90 transition-all scale-95 active:scale-90">Register</button>
+                `;
+                if (heroRegBtn) {
+                    heroRegBtn.textContent = 'Register Now';
+                }
+            }
+        }
+
+        // Initialize nav on load
+        window.addEventListener('DOMContentLoaded', () => {
+            updateNav();
+        });
+
+        // Scroll Reveal Animation Logic
+        const revealElements = document.querySelectorAll('.reveal');
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        revealElements.forEach(el => observer.observe(el));
+
+        // Parallax Effect for Hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroContent = document.getElementById('hero-content');
+            if (heroContent) {
+                heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
+                heroContent.style.opacity = 1 - (scrolled / 600);
+            }
+        });
+
+        // Header scroll effect
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('py-2', 'shadow-md');
+                header.classList.remove('py-base');
+            } else {
+                header.classList.remove('py-2', 'shadow-md');
+                header.classList.add('py-base');
+            }
+        });
+    </script>
+</body></html>
